@@ -1,24 +1,16 @@
 class Car:
-    def __init__(self, root, canvas, rows, cols, cell_size, car_size):
+    def __init__(self, root, canvas, rows, cols, cell_size, car_size, x_pos, y_pos, color):
         self.cell_size = cell_size
-
-        # Initial positions of the cars
-        self.car_data = {
-            "car_initial_position": [[1, 0], [1, cols], [rows, cols-3]],
-            "car_color"           : ["blue", "red", "green"],   
-        }        
-        
-        self.car_positions = self.car_data["car_initial_position"]
+        self.x_pos = x_pos
+        self.y_pos = y_pos              
         self.cars = []
 
-        for car_index in range(0, 3):
-            x, y = self.get_car_coordinates(self.car_data["car_initial_position"][car_index])
-            car = canvas.create_rectangle(
-                x - car_size, y - car_size,
-                x + car_size, y + car_size,
-                fill=self.car_data["car_color"][car_index]
-            )
-            self.cars.append(car)
+        x, y = self.get_car_coordinates([self.x_pos, self.y_pos])
+        car = canvas.create_rectangle(
+            x - car_size, y - car_size,
+            x + car_size, y + car_size,
+            fill = color
+        )
 
     def get_car_coordinates(self, position):
         x = position[1] * self.cell_size

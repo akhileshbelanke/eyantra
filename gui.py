@@ -5,7 +5,7 @@ import grid
 import plants
 
 class BuildMainGui():
-    def __init__(self, root, rows=6, cols=6, cell_size=100, car_size=10, num_cars=3):
+    def __init__(self, root, rows=6, cols=6, cell_size=110, car_size=10, num_cars=3):
         self.rows = rows
         self.cols = cols
         self.car_size = car_size
@@ -16,12 +16,15 @@ class BuildMainGui():
         # Create grid gui.
         self.grid_object = grid.Grid(self.canvas, rows, cols, cell_size)
         
-        # Create car gui.
-        self.car_object = car.Car(root, self.canvas, rows, cols, cell_size, car_size)
+        # Create car gui. 
+        initial_pos = [[1, 0], [1, cols], [rows, cols-3]]
+        self.car1 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[0][0], initial_pos[0][1], "red")
+        self.car2 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[1][0], initial_pos[1][1], "blue")
+        self.car2 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[2][0], initial_pos[2][1], "green")
 
         # Create plants gui.
         self.plants_object = plants.Plants(self.canvas, rows, cols, cell_size)
-        self.move_cars_automatically()        
+        # self.move_cars_automatically()        
 
 
     def move_cars_automatically(self):
