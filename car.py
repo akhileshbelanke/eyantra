@@ -16,6 +16,16 @@ class Car:
         x = position[1] * self.cell_size
         y = position[0] * self.cell_size
         return x, y
+    
+    def next_move(otherCar1, otherCar2):
+        # There are 3 states the whole system will be in.
+        # a) getInformation b) publishData c) startTheWork
+        # check which state the system is in. 
+        # if a -> move ahead in straight line.
+        # if b -> wait and broadcast information.
+        # if c -> check position of other cars and take next step.
+        # return your next position computed
+        return 0, 0
 
 if __name__ == "__main__":
     print("Cannot run directly this file. Execute gui.py")
