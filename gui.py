@@ -26,8 +26,6 @@ class BuildMainGui():
         # Create plants gui.
         self.plants_object = plants.Plants(self.canvas, rows, cols, cell_size)
 
-        # self.move_cars_automatically()        
-
 
     def move_cars_automatically(self):
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # Right, Down, Left, Up
