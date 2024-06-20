@@ -3,10 +3,9 @@ class Car:
         self.cell_size = cell_size
         self.x_pos = x_pos
         self.y_pos = y_pos              
-        self.cars = []
 
         x, y = self.get_car_coordinates([self.x_pos, self.y_pos])
-        car = canvas.create_rectangle(
+        self.the_car = canvas.create_rectangle(
             x - car_size, y - car_size,
             x + car_size, y + car_size,
             fill = color
@@ -17,7 +16,7 @@ class Car:
         y = position[0] * self.cell_size
         return x, y
     
-    def next_move(otherCar1, otherCar2):
+    def next_move(self):
         # There are 3 states the whole system will be in.
         # a) getInformation b) publishData c) startTheWork
         # check which state the system is in. 
@@ -25,7 +24,8 @@ class Car:
         # if b -> wait and broadcast information.
         # if c -> check position of other cars and take next step.
         # return your next position computed
-        return 0, 0
+        # update self.x_pos and self.y_pos
+        pass
 
 if __name__ == "__main__":
     print("Cannot run directly this file. Execute gui.py")
