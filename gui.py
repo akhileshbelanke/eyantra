@@ -13,15 +13,22 @@ class BuildMainGui():
         self.canvas = tk.Canvas(root, width=cols * cell_size, height=rows * cell_size, bg="white")
         self.canvas.pack()
         self.system_state = "GET_INFO"
+        self.total_cars = 3
+        self.cars_objects_list = []
+        self.car_colors = ["red", "green", "blue"]
 
         # Create grid gui.
         self.grid_object = grid.Grid(self.canvas, rows, cols, cell_size)
         
         # Create car gui. 
         initial_pos = [[0, 1], [cols-3, rows], [cols, 1]]
-        self.car1 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[0][0], initial_pos[0][1], "red")
-        self.car2 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[1][0], initial_pos[1][1], "green")
-        self.car3 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[2][0], initial_pos[2][1], "blue")
+        for i in range(0, self.total_cars):
+            instance = car.Car(root, 
+                               self.canvas, 
+                               rows, cols, cell_size, car_size, 
+                               initial_pos[i][0], initial_pos[i][1], 
+                               self.car_colors[i])            
+            self.cars_objects_list.append(instance)
 
         # Create plants gui.
         self.plants_object = plants.Plants(self.canvas, rows, cols, cell_size)
@@ -29,11 +36,11 @@ class BuildMainGui():
 
     def move_cars_automatically(self):
         # Calculte where to move the car next
-        for current_car in [self.car1, self.car2, self.car3]:
+        for current_car in self.cars_objects_list:
             current_car.next_move()
 
         # Move the car on the canvas the gui
-        for current_car in [self.car1, self.car2, self.car3]:
+        for current_car in self.cars_objects_list:
             new_position = [current_car.x_pos, current_car.y_pos]
 
             # Ensure the new position is within bounds
@@ -46,7 +53,7 @@ class BuildMainGui():
             else:
                 print("Invalid Car Position", new_position[0], new_position[1])
 
-        self.root.after(10, self.move_cars_automatically)  # Repeat every 500ms
+        self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
 
 
 # Create the main application window
