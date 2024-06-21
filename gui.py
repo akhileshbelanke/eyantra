@@ -18,28 +18,23 @@ class BuildMainGui():
         self.grid_object = grid.Grid(self.canvas, rows, cols, cell_size)
         
         # Create car gui. 
-        initial_pos = [[1, 0], [1, cols], [rows, cols-3]]
+        initial_pos = [[0, 1], [cols-3, rows], [cols, 1]]
         self.car1 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[0][0], initial_pos[0][1], "red")
-        self.car2 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[1][0], initial_pos[1][1], "blue")
-        self.car3 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[2][0], initial_pos[2][1], "green")
+        self.car2 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[1][0], initial_pos[1][1], "green")
+        self.car3 = car.Car(root, self.canvas, rows, cols, cell_size, car_size, initial_pos[2][0], initial_pos[2][1], "blue")
 
         # Create plants gui.
         self.plants_object = plants.Plants(self.canvas, rows, cols, cell_size)
 
 
     def move_cars_automatically(self):
-        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # Right, Down, Left, Up
-
         # Calculte where to move the car next
         for current_car in [self.car1, self.car2, self.car3]:
             current_car.next_move()
 
         # Move the car on the canvas the gui
         for current_car in [self.car1, self.car2, self.car3]:
-            direction = random.choice(directions)
-            new_position = [current_car.x_pos + direction[0], current_car.y_pos + direction[1]]
-            current_car.x_pos = new_position[0]
-            current_car.y_pos = new_position[1]
+            new_position = [current_car.x_pos, current_car.y_pos]
 
             # Ensure the new position is within bounds
             if (0 <= new_position[0] < self.rows) and (0 <= new_position[1] < self.cols):
@@ -51,7 +46,7 @@ class BuildMainGui():
             else:
                 print("Invalid Car Position", new_position[0], new_position[1])
 
-        self.root.after(500, self.move_cars_automatically)  # Repeat every 500ms
+        self.root.after(10, self.move_cars_automatically)  # Repeat every 500ms
 
 
 # Create the main application window

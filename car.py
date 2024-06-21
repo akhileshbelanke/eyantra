@@ -13,7 +13,7 @@ class Car:
             x + car_size, y + car_size,
             fill = color
         )
-        
+
         if color == "red":
             self.car_indx = 1
         elif color == "green":
@@ -22,11 +22,21 @@ class Car:
             self.car_indx = 3
 
     def get_car_coordinates(self, position):
-        x = position[1] * self.cell_size
-        y = position[0] * self.cell_size
+        x = position[0] * self.cell_size
+        y = position[1] * self.cell_size
         return x, y
     
     def next_move(self):
+        if self.car_indx == 1:
+            # Move this car horizontally right
+            self.x_pos += self.stride
+        elif self.car_indx == 2:
+            # Move this car vertically upward
+            self.y_pos -= self.stride
+        else:
+            # Move this car horizontally left
+            self.x_pos -= self.stride
+
         # There are 3 states the whole system will be in.
         # a) getInformation b) publishData c) startTheWork
         # check which state the system is in. 
@@ -35,7 +45,6 @@ class Car:
         # if c -> check position of other cars and take next step.
         # return your next position computed
         # update self.x_pos and self.y_pos
-        pass
 
 if __name__ == "__main__":
     print("Cannot run directly this file. Execute gui.py")
