@@ -1,7 +1,7 @@
 class Car:
     def __init__(self, root, canvas, rows, cols, cell_size, car_size, x_pos, y_pos, color):
         self.cell_size = cell_size
-        self.initial_offset = 20
+        self.initial_offset = 30
         # The x_pos rance from 0 to number of cols
         #     y_pos range from 0 to number of rows
         self.x_pos = x_pos

@@ -1,7 +1,8 @@
 class Plants:
     def __init__(self, canvas, rows, cols, cell_size, circle_radius=15):
-        center_x = cell_size // 2
-        center_y = cell_size // 2
+        self.initial_offset = 30
+        center_x = self.initial_offset + cell_size // 2
+        center_y = self.initial_offset + cell_size // 2
         # Populate the grid with canvases and draw circles on them
         for i in range(rows):
             for j in range(cols):
@@ -14,7 +15,7 @@ class Plants:
                 center_y += cell_size
             
             center_x += cell_size
-            center_y = cell_size // 2
+            center_y = self.initial_offset + cell_size // 2
 
     def draw_circle(self, canvas, x, y, r):
         """Draw a circle with given radius and center coordinates."""

@@ -1,6 +1,6 @@
 class Grid:
     def __init__(self, canvas, rows=6, cols=6, cell_size=50):
-        initial_offset = 20
+        initial_offset = 30
         line_horizontal = initial_offset + cols * cell_size
         line_vertical = initial_offset + rows * cell_size
         # Draw vertical lines
