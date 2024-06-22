@@ -1,6 +1,7 @@
 class Car:
     def __init__(self, root, canvas, rows, cols, cell_size, car_size, x_pos, y_pos, color):
         self.cell_size = cell_size
+        self.initial_offset = 20
         # The x_pos rance from 0 to number of cols
         #     y_pos range from 0 to number of rows
         self.x_pos = x_pos
@@ -22,8 +23,8 @@ class Car:
             self.car_indx = 3
 
     def get_car_coordinates(self, position):
-        x = position[0] * self.cell_size
-        y = position[1] * self.cell_size
+        x = self.initial_offset + position[0] * self.cell_size
+        y = self.initial_offset + position[1] * self.cell_size
         return x, y
     
     def next_move(self):
