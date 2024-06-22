@@ -2,7 +2,7 @@ class Algorithm():
     def __init__(self):
         self.path = []
 
-    def next_location_to_go(self, current_car):
+    def get_target_position(self):
         pass
 
     if __name__ == "__main__":
