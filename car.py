@@ -1,4 +1,6 @@
-class Car:
+import algorithm
+
+class Car(algorithm):
     def __init__(self, root, canvas, rows, cols, cell_size, car_size, x_pos, y_pos, color):
         self.cell_size = cell_size
         self.initial_offset = 30
