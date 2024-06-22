@@ -1,14 +1,17 @@
 class Grid:
-    def __init__(self, canvas, rows=6, cols=10, cell_size=50):
+    def __init__(self, canvas, rows=6, cols=6, cell_size=50):
+        initial_offset = 20
+        line_horizontal = initial_offset + cols * cell_size
+        line_vertical = initial_offset + rows * cell_size
         # Draw vertical lines
         for i in range(cols + 1):
-            x = i * cell_size
-            canvas.create_line(x, 0, x, rows * cell_size, fill="black", width=5)
+            x = initial_offset + i * cell_size
+            canvas.create_line(x, initial_offset, x, line_vertical, fill="black", width=5)
 
         # Draw horizontal lines
         for i in range(rows + 1):
-            y = i * cell_size
-            canvas.create_line(0, y, cols * cell_size, y, fill="black", width=5)
+            y = initial_offset + i * cell_size
+            canvas.create_line(initial_offset, y, line_horizontal, y, fill="black", width=5)
 
 if __name__ == "__main__":
     print("Cannot run directly this file. Execute gui.py")

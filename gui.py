@@ -5,12 +5,12 @@ import grid
 import plants
 
 class BuildMainGui():
-    def __init__(self, root, rows=6, cols=6, cell_size=110, car_size=10, num_cars=3):
+    def __init__(self, root, rows=6, cols=6, cell_size=100, car_size=10, num_cars=3):
         self.rows = rows
         self.cols = cols
         self.car_size = car_size
         self.root = root
-        self.canvas = tk.Canvas(root, width=cols * cell_size, height=rows * cell_size, bg="white")
+        self.canvas = tk.Canvas(root, width=50+cols * cell_size, height=50+rows * cell_size, bg="white")
         self.canvas.pack()
         self.system_state = "GET_INFO"
         self.total_cars = 3
