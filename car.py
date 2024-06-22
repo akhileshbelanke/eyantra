@@ -8,7 +8,9 @@ class Car(algorithm):
         #     y_pos range from 0 to number of rows
         self.x_pos = x_pos
         self.y_pos = y_pos
-        self.stride = 0.005              
+        self.target_x_pos = x_pos
+        self.target_y_pos = y_pos
+        self.stride = 0.005            
 
         x, y = self.get_car_coordinates([self.x_pos, self.y_pos])
         self.the_car = canvas.create_rectangle(
@@ -19,6 +21,8 @@ class Car(algorithm):
 
         if color == "red":
             self.car_indx = 1
+            # TODO Path should be calculated not fixed.
+            self.path = [(1, 1), (5, 1), (5, 5), (1, 5), (1, 1), (0, 1)]
         elif color == "green":
             self.car_indx = 2 
         else:
@@ -29,7 +33,30 @@ class Car(algorithm):
         y = self.initial_offset + position[1] * self.cell_size
         return x, y
     
+    def is_target_reached(self):
+        if (self.x_pos == self.target_x_pos) and (self.y_pos == self.target_y_pos):
+            return True
+        else:
+            return False
+
+    def move_car_in_that_direction(self, direction):
+        if direction == (1, 0):
+            # right
+            pass
+        elif direction == (-1, 0):
+            # left
+            pass
+        elif direction == (0, 1):
+            # down
+            pass
+        elif direction == (0, 1):
+            # up
+            pass
+
     def next_move(self):
+        if is_target_reached():
+            self.target_x_pos, self.target_y_pos = self.get_target_position(self)
+
         if self.car_indx == 1:
             # Move this car horizontally right
             self.x_pos += self.stride
