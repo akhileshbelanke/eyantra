@@ -10,7 +10,8 @@ class Car(algorithm):
         self.y_pos = y_pos
         self.target_x_pos = x_pos
         self.target_y_pos = y_pos
-        self.stride = 0.005            
+        self.stride = 0.005
+        self.car_head = None
 
         x, y = self.get_car_coordinates([self.x_pos, self.y_pos])
         self.the_car = canvas.create_rectangle(
@@ -21,12 +22,14 @@ class Car(algorithm):
 
         if color == "red":
             self.car_indx = 1
-            # TODO Path should be calculated not fixed.
-            self.path = [(1, 1), (5, 1), (5, 5), (1, 5), (1, 1), (0, 1)]
+            self.car_head = "right"
         elif color == "green":
             self.car_indx = 2 
+            self.car_head = "left"
         else:
             self.car_indx = 3
+            self.car_head = "up"   
+        super().__init__(self, color)
 
     def get_car_coordinates(self, position):
         x = self.initial_offset + position[0] * self.cell_size
@@ -39,24 +42,11 @@ class Car(algorithm):
         else:
             return False
 
-    def move_car_in_that_direction(self, direction):
-        if direction == (1, 0):
-            # right
-            pass
-        elif direction == (-1, 0):
-            # left
-            pass
-        elif direction == (0, 1):
-            # down
-            pass
-        elif direction == (0, 1):
-            # up
-            pass
-
     def next_move(self):
-        if is_target_reached():
+        if self.is_target_reached():
             self.target_x_pos, self.target_y_pos = self.get_target_position(self)
-
+            direction = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
+            
         if self.car_indx == 1:
             # Move this car horizontally right
             self.x_pos += self.stride
