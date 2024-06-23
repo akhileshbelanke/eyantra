@@ -13,7 +13,7 @@ class Car(Algorithm):
         self.car_length = car_size + 5
         self.car_breadth = car_size
         self.canvas = canvas
-        self.corner_vector = []
+        self.corner_vector = [None, None]
 
         if color == "red":
             self.car_indx = 1
@@ -45,19 +45,18 @@ class Car(Algorithm):
         #                         |   car    |
         #                         .----------. <---(right corner point)
         # These two points are required to draw car using create_rectangle api.
+        left_corner_x=0
+        left_corner_y=0
+        right_corner_x=0
+        right_corner_y=0
+
         x, y = self.get_car_coordinates([self.x_pos, self.y_pos])
-        if car_head == "left" or car_head == "right":
-            left_corner_x = x - self.car_length
-            left_corner_y = y - self.car_breadth
-            right_corner_x = x + self.car_length
-            right_corner_y =  y + self.car_breadth
-            self.corner_vector = [self.car_length, self.car_breadth]
-        elif car_head == "up" or car_head == "down":
-            left_corner_x = x - self.car_breadth
-            left_corner_y = y - self.car_length
-            right_corner_x = x + self.car_breadth
-            right_corner_y =  y + self.car_length
-            self.corner_vector = [self.car_breadth, self.car_length]
+        left_corner_x = x - (self.car_length if (car_head == "left" or car_head == "right") else self.car_breadth)
+        left_corner_y = y - (self.car_breadth if (car_head == "left" or car_head == "right") else self.car_length)
+        right_corner_x = x + (self.car_length if (car_head == "left" or car_head == "right") else self.car_breadth)
+        right_corner_y =  y + (self.car_breadth if (car_head == "left" or car_head == "right") else self.car_length)
+        self.corner_vector[0] = self.car_length if (car_head == "left" or car_head == "right") else self.car_breadth
+        self.corner_vector[1] = self.car_breadth if (car_head == "left" or car_head == "right") else self.car_length
 
 
         if caller == "init":
@@ -74,7 +73,7 @@ class Car(Algorithm):
 
     def next_move(self):
         if self.is_target_reached():
-            self.target_x_pos, self.target_y_pos = self.get_target_position(self)
+            self.target_x_pos, self.target_y_pos = self.get_target_position()
             direction = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
             self.adjust_the_car_facing(direction, caller="next_move")
             

@@ -63,7 +63,7 @@ root.title("Eyantra Robotic Competition - Feeder Weeder")
 app = BuildMainGui(root)
 
 # Calculate car will move in the next time scale.
-# app.move_cars_automatically()
+app.move_cars_automatically()
 
 # Start the main event loop
 root.mainloop()
