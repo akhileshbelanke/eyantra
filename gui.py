@@ -47,14 +47,13 @@ class BuildMainGui():
             if (0 <= new_position[0] < self.rows) and (0 <= new_position[1] < self.cols):
                 x, y = current_car.get_car_coordinates(new_position)
                 self.canvas.coords(current_car.the_car, 
-                    x - self.car_size, y - self.car_size,
-                    x + self.car_size, y + self.car_size
+                    x - current_car.corner_vector[0], y - current_car.corner_vector[1],
+                    x + current_car.corner_vector[0], y + current_car.corner_vector[1]
                 )
             else:
                 print("Invalid Car Position", new_position[0], new_position[1])
 
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
-
 
 # Create the main application window
 root = tk.Tk()
