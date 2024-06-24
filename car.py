@@ -6,8 +6,6 @@ class Car(Algorithm):
         self.initial_offset = 30   
         self.x_pos = x_pos # x_pos range from 0 to number of cols
         self.y_pos = y_pos # y_pos range from 0 to number of rows
-        self.target_x_pos = x_pos
-        self.target_y_pos = y_pos
         self.stride = 0.005
         self.car_head = None
         self.car_length = car_size + 5
@@ -18,12 +16,18 @@ class Car(Algorithm):
         if color == "red":
             self.car_indx = 1
             self.car_head = "right"
+            self.target_x_pos = 1
+            self.target_y_pos = 1
         elif color == "green":
             self.car_indx = 2 
             self.car_head = "up"
+            self.target_x_pos = 3
+            self.target_y_pos = 5
         else:
             self.car_indx = 3
             self.car_head = "left"
+            self.target_x_pos = 5
+            self.target_y_pos = 1
 
         self.adjust_the_car_facing(self.car_head, caller="init", color=color) 
 
@@ -35,7 +39,7 @@ class Car(Algorithm):
         return x, y
     
     def is_target_reached(self):
-        if (self.x_pos == self.target_x_pos) and (self.y_pos == self.target_y_pos):
+        if (round(self.x_pos, 3) == self.target_x_pos) and (round(self.y_pos, 3) == self.target_y_pos):
             return True
         else:
             return False
@@ -51,6 +55,7 @@ class Car(Algorithm):
         right_corner_y=0
 
         x, y = self.get_car_coordinates([self.x_pos, self.y_pos])
+        # Else part is when car_head is Up/Down
         left_corner_x = x - (self.car_length if (car_head == "left" or car_head == "right") else self.car_breadth)
         left_corner_y = y - (self.car_breadth if (car_head == "left" or car_head == "right") else self.car_length)
         right_corner_x = x + (self.car_length if (car_head == "left" or car_head == "right") else self.car_breadth)
@@ -74,18 +79,21 @@ class Car(Algorithm):
     def next_move(self):
         if self.is_target_reached():
             self.target_x_pos, self.target_y_pos = self.get_target_position()
-            direction = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
-            self.adjust_the_car_facing(direction, caller="next_move")
+            self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
+            self.adjust_the_car_facing(self.car_head, caller="next_move")
             
-        if self.car_indx == 1:
+        if self.car_head == "right":
             # Move this car horizontally right
             self.x_pos += self.stride
-        elif self.car_indx == 2:
+        elif self.car_head == "up":
             # Move this car vertically upward
             self.y_pos -= self.stride
-        else:
+        elif self.car_head == "left":
             # Move this car horizontally left
             self.x_pos -= self.stride
+        elif self.car_head == "down":
+            # Move this car vertically downwards
+            self.y_pos += self.stride
 
         # There are 3 states the whole system will be in.
         # a) getInformation b) publishData c) startTheWork
