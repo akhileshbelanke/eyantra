@@ -12,6 +12,8 @@ class Car(Algorithm):
         self.car_breadth = car_size
         self.canvas = canvas
         self.corner_vector = [None, None]
+        # Car States: MOVEING, ON_THE_NODE, SENSING, FEEDING, WEEDING, START and STOP.
+        self.car_state = "MOVEING"
 
         if color == "red":
             self.car_indx = 1
