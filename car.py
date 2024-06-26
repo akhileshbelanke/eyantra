@@ -13,7 +13,7 @@ class Car(Algorithm):
         self.canvas = canvas
         self.corner_vector = [None, None]
         # Car States: MOVEING, ON_THE_NODE, SENSING, FEEDING, WEEDING, START and STOP.
-        self.car_state = "MOVEING"
+        self.car_state = "MOVING"
 
         if color == "red":
             self.car_indx = 1
@@ -79,23 +79,41 @@ class Car(Algorithm):
                                )
 
     def next_move(self):
-        if self.is_target_reached():
+        if self.car_state == "START":
+            pass
+
+        elif self.car_state == "ON_THE_NODE":
             self.target_x_pos, self.target_y_pos = self.get_target_position()
             self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
             self.adjust_the_car_facing(self.car_head, caller="next_move")
+            self.car_state = "MOVING"
             
-        if self.car_head == "right":
-            # Move this car horizontally right
-            self.x_pos += self.stride
-        elif self.car_head == "up":
-            # Move this car vertically upward
-            self.y_pos -= self.stride
-        elif self.car_head == "left":
-            # Move this car horizontally left
-            self.x_pos -= self.stride
-        elif self.car_head == "down":
-            # Move this car vertically downwards
-            self.y_pos += self.stride
+        elif self.car_state == "MOVING":
+            if not self.is_target_reached():
+                if self.car_head == "right":
+                    # Move this car horizontally right
+                    self.x_pos += self.stride
+                elif self.car_head == "up":
+                    # Move this car vertically upward
+                    self.y_pos -= self.stride
+                elif self.car_head == "left":
+                    # Move this car horizontally left
+                    self.x_pos -= self.stride
+                elif self.car_head == "down":
+                    # Move this car vertically downwards
+                    self.y_pos += self.stride
+                self.car_state = "MOVING"
+            else:
+                self.car_state = "ON_THE_NODE"
+
+        elif self.car_state == "SENSING":
+            pass
+        elif self.car_state == "FEEDING":
+            pass
+        elif self.car_state == "WEEDING":
+            pass
+        elif self.car_state == "STOP":
+            pass
 
         # There are 3 states the whole system will be in.
         # a) getInformation b) publishData c) startTheWork
