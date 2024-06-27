@@ -86,7 +86,7 @@ class Car(Algorithm):
             self.target_x_pos, self.target_y_pos = self.get_target_position()
             self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
             self.adjust_the_car_facing(self.car_head, caller="next_move")
-            self.car_state = "MOVING"
+            self.car_state = "SENSING"
             
         elif self.car_state == "MOVING":
             if not self.is_target_reached():
@@ -107,7 +107,14 @@ class Car(Algorithm):
                 self.car_state = "ON_THE_NODE"
 
         elif self.car_state == "SENSING":
-            pass
+            # sense_color in all 4 boxes around that node.
+            # update the data in the structures.
+            # start moving towards next node.
+            # if CarIsRed and PlantIsRed || CarIsBlue and PlantIsBlue -> self.car_state = FEEDING.
+            # if CarIsGreen and PlantIsRed                            -> self.car_state = WEEDING.
+            # otherwise start moving towards next node
+            self.car_state = "MOVING"
+
         elif self.car_state == "FEEDING":
             pass
         elif self.car_state == "WEEDING":
