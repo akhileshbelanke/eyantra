@@ -13,7 +13,7 @@ class Car(Algorithm):
         self.canvas = canvas
         self.corner_vector = [None, None]
         # Car States: MOVEING, ON_THE_NODE, SENSING, FEEDING, WEEDING, START and STOP.
-        self.car_state = "MOVING"
+        self.car_state = "START"
 
         if color == "red":
             self.car_indx = 1
@@ -80,7 +80,7 @@ class Car(Algorithm):
 
     def next_move(self):
         if self.car_state == "START":
-            pass
+            self.car_state = "MOVING"
 
         elif self.car_state == "ON_THE_NODE":
             self.target_x_pos, self.target_y_pos = self.get_target_position()
@@ -116,20 +116,16 @@ class Car(Algorithm):
             self.car_state = "MOVING"
 
         elif self.car_state == "FEEDING":
-            pass
+            # Check the color of car and feed the plant accordingly. Feed all the plants on the node of the same color.
+            self.car_state = "MOVING"
+
         elif self.car_state == "WEEDING":
-            pass
+            # Weed all the plants around the node and then start moving.
+            self.car_state = "MOVING"
+
         elif self.car_state == "STOP":
             pass
 
-        # There are 3 states the whole system will be in.
-        # a) getInformation b) publishData c) startTheWork
-        # check which state the system is in. 
-        # if a -> move ahead in straight line.
-        # if b -> wait and broadcast information.
-        # if c -> check position of other cars and take next step.
-        # return your next position computed
-        # update self.x_pos and self.y_pos
 
 if __name__ == "__main__":
     print("Cannot run directly this file. Execute gui.py")
