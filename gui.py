@@ -70,9 +70,9 @@ class BuildMainGui():
                         # feed or weed the box
                         action = "weed" if current_car.car_color == "green" else "feed"
                         self.plants_object.feed_weed_the_plant(self.canvas, action,
-                                                                   self.cell_size * current_car.x_pos - self.cell_size // 2,
-                                                                   self.cell_size * current_car.y_pos - self.cell_size // 2,
-                                                                   15, plant_color=current_car.car_color)
+                                                               self.cell_size * current_car.x_pos - self.cell_size // 2,
+                                                               self.cell_size * current_car.y_pos - self.cell_size // 2,
+                                                               15, plant_color=current_car.car_color)
                 
                 current_car.car_state = "MOVING"                
 
