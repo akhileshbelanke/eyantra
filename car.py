@@ -90,7 +90,9 @@ class Car(Algorithm):
             self.car_state = "SENSING"
             
         elif self.car_state == "MOVING":
-            if not self.is_target_reached():
+            if self.reached_intersection():
+                self.car_state = "SENSING"
+            else:
                 if self.car_head == "right":
                     # Move this car horizontally right
                     self.x_pos += self.stride
@@ -104,8 +106,6 @@ class Car(Algorithm):
                     # Move this car vertically downwards
                     self.y_pos += self.stride
                 self.car_state = "MOVING"
-            else:
-                self.car_state = "ON_THE_NODE"
 
         elif self.car_state == "SENSING":
             # sense_color in all 4 boxes around that node.
@@ -114,7 +114,10 @@ class Car(Algorithm):
             # if CarIsRed and PlantIsRed || CarIsBlue and PlantIsBlue -> self.car_state = FEEDING.
             # if CarIsGreen and PlantIsRed                            -> self.car_state = WEEDING.
             # otherwise start moving towards next node
-            self.car_state = "MOVING"
+            if self.is_target_reached():
+                self.car_state = "ON_THE_NODE"
+            else:
+                self.car_state = "MOVING"
 
         elif self.car_state == "FEEDING":
             # Check the color of car and feed the plant accordingly. Feed all the plants on the node of the same color.
