@@ -15,6 +15,7 @@ class Car(Algorithm):
         # Car States: MOVEING, ON_THE_NODE, SENSING, FEEDING, WEEDING, START and STOP.
         self.car_state = "START"
         self.car_color = color
+        self.collected_plants_data = []
 
         if color == "red":
             self.car_indx = 1
@@ -40,7 +41,13 @@ class Car(Algorithm):
         x = self.initial_offset + position[0] * self.cell_size
         y = self.initial_offset + position[1] * self.cell_size
         return x, y
-    
+
+    def reached_intersection(self):
+        if (round(self.x_pos, 3) == round(self.x_pos, 0)) and (round(self.y_pos, 3) == round(self.y_pos, 0)):
+            return True
+        else:
+            return False
+
     def is_target_reached(self):
         if (round(self.x_pos, 3) == self.target_x_pos) and (round(self.y_pos, 3) == self.target_y_pos):
             return True
@@ -81,6 +88,18 @@ class Car(Algorithm):
 
     def next_move(self):
         if self.car_state == "START":
+            if self.car_head == "right":
+                # Move this car horizontally right
+                self.x_pos += self.stride
+            elif self.car_head == "up":
+                # Move this car vertically upward
+                self.y_pos -= self.stride
+            elif self.car_head == "left":
+                # Move this car horizontally left
+                self.x_pos -= self.stride
+            elif self.car_head == "down":
+                # Move this car vertically downwards
+                self.y_pos += self.stride
             self.car_state = "MOVING"
 
         elif self.car_state == "ON_THE_NODE":
@@ -116,8 +135,6 @@ class Car(Algorithm):
             # otherwise start moving towards next node
             if self.is_target_reached():
                 self.car_state = "ON_THE_NODE"
-            else:
-                self.car_state = "MOVING"
 
         elif self.car_state == "FEEDING":
             # Check the color of car and feed the plant accordingly. Feed all the plants on the node of the same color.
@@ -129,7 +146,6 @@ class Car(Algorithm):
 
         elif self.car_state == "STOP":
             pass
-
 
 if __name__ == "__main__":
     print("Cannot run directly this file. Execute gui.py")

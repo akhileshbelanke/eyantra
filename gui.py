@@ -6,6 +6,7 @@ import plants
 
 class BuildMainGui():
     def __init__(self, root, rows=6, cols=6, cell_size=100, car_size=10, num_cars=3):
+        self.cell_size = cell_size
         self.rows = rows
         self.cols = cols
         self.car_size = car_size
@@ -17,6 +18,7 @@ class BuildMainGui():
         self.total_cars = 3
         self.cars_objects_list = []
         self.car_colors = ["red", "green", "blue"]
+        self.gui_plants_data = []
 
         # Create grid gui.
         self.grid_object = grid.Grid(self.canvas, rows, cols, cell_size)
@@ -42,24 +44,54 @@ class BuildMainGui():
 
         # Move the car on the canvas the gui
         for current_car in self.cars_objects_list:
-            new_position = [current_car.x_pos, current_car.y_pos]
+            if current_car.car_state == "MOVING":
+                new_position = [current_car.x_pos, current_car.y_pos]
 
-            # Ensure the new position is within bounds
-            if (0 <= new_position[0] <= self.rows) and (0 <= new_position[1] <= self.cols):
-                x, y = current_car.get_car_coordinates(new_position)
-                self.canvas.coords(current_car.the_car, 
-                    x - current_car.corner_vector[0], y - current_car.corner_vector[1],
-                    x + current_car.corner_vector[0], y + current_car.corner_vector[1]
-                )
-            else:
-                print("Invalid Car Position", new_position[0], new_position[1],
-                      "color =", current_car.car_color)
+                # Ensure the new position is within bounds
+                if (0 <= new_position[0] <= self.rows) and (0 <= new_position[1] <= self.cols):
+                    x, y = current_car.get_car_coordinates(new_position)
+                    self.canvas.coords(current_car.the_car, 
+                        x - current_car.corner_vector[0], y - current_car.corner_vector[1],
+                        x + current_car.corner_vector[0], y + current_car.corner_vector[1]
+                    )
+                else:
+                    print("Invalid Car Position", new_position[0], new_position[1],
+                        "color =", current_car.car_color)
+            elif current_car.car_state == "SENSING":
+                # The car is not moving here. The only updating the data structures.
+                # Car will check all the 4 boxes around the node.
+                for box in range(0, 2):
+                    box_index = (int(current_car.x_pos) - 1) * self.cols + (int(current_car.y_pos) - 1) + box
+                    
+                    plant_data = self.plants_object.plants_positions[box_index]
+                    current_car.collected_plants_data.append(plant_data)
+
+                    if plant_data["COLOR"] == current_car.car_color:
+                        # feed or weed the box
+                        action = "weed" if current_car.car_color == "green" else "feed"
+                        self.plants_object.feed_weed_the_plant(self.canvas, action,
+                                                                   self.cell_size * current_car.x_pos - self.cell_size // 2,
+                                                                   self.cell_size * current_car.y_pos - self.cell_size // 2,
+                                                                   15, plant_color=current_car.car_color)
+                
+                current_car.car_state = "MOVING"                
 
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
 
 # Create the main application window
 root = tk.Tk()
 root.title("Eyantra Robotic Competition - Feeder Weeder")
+
+# Get the screen width and height
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+
+# Calculate the position to center the window
+x = (screen_width // 2) - (50 + 6 * 100 // 2)
+y = (screen_height // 2) - (50 + 6 * 100 // 2)
+
+# Set the geometry of the window
+root.geometry(f'{50 + 6 * 100}x{50 + 6 * 100}+{x}+{y}')
 
 # Initialize the CarGridApp
 app = BuildMainGui(root)
