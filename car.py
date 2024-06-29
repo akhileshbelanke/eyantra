@@ -14,6 +14,7 @@ class Car(Algorithm):
         self.corner_vector = [None, None]
         # Car States: MOVEING, ON_THE_NODE, SENSING, FEEDING, WEEDING, START and STOP.
         self.car_state = "START"
+        self.car_color = color
 
         if color == "red":
             self.car_indx = 1

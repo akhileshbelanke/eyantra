@@ -45,14 +45,15 @@ class BuildMainGui():
             new_position = [current_car.x_pos, current_car.y_pos]
 
             # Ensure the new position is within bounds
-            if (0 <= new_position[0] < self.rows) and (0 <= new_position[1] < self.cols):
+            if (0 <= new_position[0] <= self.rows) and (0 <= new_position[1] <= self.cols):
                 x, y = current_car.get_car_coordinates(new_position)
                 self.canvas.coords(current_car.the_car, 
                     x - current_car.corner_vector[0], y - current_car.corner_vector[1],
                     x + current_car.corner_vector[0], y + current_car.corner_vector[1]
                 )
             else:
-                print("Invalid Car Position", new_position[0], new_position[1])
+                print("Invalid Car Position", new_position[0], new_position[1],
+                      "color =", current_car.car_color)
 
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
 
