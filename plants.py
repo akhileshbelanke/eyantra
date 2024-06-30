@@ -7,7 +7,7 @@ class Plants:
         center_y = self.initial_offset + cell_size // 2
         self.plants_type = ["red", "green", "blue", "Skip"]
         self.plants_positions = []
-        temp_plant_struct = {
+        self.temp_plant_struct = {
             "COLOR": None,
             "VISITED": None,
         }
@@ -17,14 +17,14 @@ class Plants:
                 canvas.grid(row=i, column=j)
                 
                 # Draw a circle in the canvas
-                temp_plant_struct = {
+                self.temp_plant_struct = {
                     "COLOR": self.draw_circle_place_plant(canvas, center_x, center_y, circle_radius),
                     "VISITED": None,
                 }
 
                 # Calculate the next center of the circle
                 center_x += cell_size
-                self.plants_positions.append(temp_plant_struct)
+                self.plants_positions.append(self.temp_plant_struct)
 
             center_x = self.initial_offset + cell_size // 2
             center_y += cell_size
