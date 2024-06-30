@@ -5,7 +5,7 @@ class Plants:
         self.initial_offset = 30
         center_x = self.initial_offset + cell_size // 2
         center_y = self.initial_offset + cell_size // 2
-        self.plants_type = ["red", "green", "blue", "Skip", "Skip", "Skip"]
+        self.plants_type = ["red", "green", "blue", "Skip"]
         self.plants_positions = []
         temp_plant_struct = {
             "COLOR": None,
@@ -17,14 +17,17 @@ class Plants:
                 canvas.grid(row=i, column=j)
                 
                 # Draw a circle in the canvas
-                temp_plant_struct["COLOR"] = self.draw_circle_place_plant(canvas, center_x, center_y, circle_radius)
+                temp_plant_struct = {
+                    "COLOR": self.draw_circle_place_plant(canvas, center_x, center_y, circle_radius),
+                    "VISITED": None,
+                }
 
                 # Calculate the next center of the circle
-                center_y += cell_size
+                center_x += cell_size
                 self.plants_positions.append(temp_plant_struct)
 
-            center_x += cell_size
-            center_y = self.initial_offset + cell_size // 2
+            center_x = self.initial_offset + cell_size // 2
+            center_y += cell_size
     
     def feed_weed_the_plant(self, canvas, action, x, y, r, plant_color):
         if plant_color != "green":

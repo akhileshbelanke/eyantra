@@ -61,7 +61,9 @@ class BuildMainGui():
                 # The car is not moving here. The only updating the data structures.
                 # Car will check all the 4 boxes around the node.
                 for box in range(0, 2):
-                    box_index = (int(current_car.x_pos) - 1) * self.cols + (int(current_car.y_pos) - 1) + box
+                    __row = int(current_car.y_pos)
+                    __col = int(current_car.x_pos)
+                    box_index = (__row - 1) * self.cols + (__col - 1) + box
                     
                     plant_data = self.plants_object.plants_positions[box_index]
                     current_car.collected_plants_data.append(plant_data)

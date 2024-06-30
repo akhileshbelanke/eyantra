@@ -88,6 +88,16 @@ class Car(Algorithm):
 
     def next_move(self):
         if self.car_state == "START":
+            self.car_state = "MOVING"
+
+        elif self.car_state == "ON_THE_NODE":
+            self.target_x_pos, self.target_y_pos = self.get_target_position()
+            self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
+            self.adjust_the_car_facing(self.car_head, caller="next_move")
+            self.car_state = "SENSING"
+            
+        elif self.car_state == "MOVING":
+            # First move the car in required direction
             if self.car_head == "right":
                 # Move this car horizontally right
                 self.x_pos += self.stride
@@ -100,30 +110,11 @@ class Car(Algorithm):
             elif self.car_head == "down":
                 # Move this car vertically downwards
                 self.y_pos += self.stride
-            self.car_state = "MOVING"
-
-        elif self.car_state == "ON_THE_NODE":
-            self.target_x_pos, self.target_y_pos = self.get_target_position()
-            self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
-            self.adjust_the_car_facing(self.car_head, caller="next_move")
-            self.car_state = "SENSING"
             
-        elif self.car_state == "MOVING":
+            # Then check if it has reached an intersection or not.
             if self.reached_intersection():
                 self.car_state = "SENSING"
             else:
-                if self.car_head == "right":
-                    # Move this car horizontally right
-                    self.x_pos += self.stride
-                elif self.car_head == "up":
-                    # Move this car vertically upward
-                    self.y_pos -= self.stride
-                elif self.car_head == "left":
-                    # Move this car horizontally left
-                    self.x_pos -= self.stride
-                elif self.car_head == "down":
-                    # Move this car vertically downwards
-                    self.y_pos += self.stride
                 self.car_state = "MOVING"
 
         elif self.car_state == "SENSING":
