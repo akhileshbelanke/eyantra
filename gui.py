@@ -76,8 +76,6 @@ class BuildMainGui():
                                                                self.cell_size * current_car.y_pos - self.cell_size // 2,
                                                                15, plant_color=current_car.car_color)
                 
-                current_car.car_state = "MOVING"                
-
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
 
 # Create the main application window

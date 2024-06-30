@@ -126,6 +126,8 @@ class Car(Algorithm):
             # otherwise start moving towards next node
             if self.is_target_reached():
                 self.car_state = "ON_THE_NODE"
+            else:
+                self.car_state = "MOVING"
 
         elif self.car_state == "FEEDING":
             # Check the color of car and feed the plant accordingly. Feed all the plants on the node of the same color.
