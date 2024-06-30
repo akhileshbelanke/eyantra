@@ -33,7 +33,7 @@ class Plants:
         if plant_color != "green":
             canvas.create_oval(x - r, y - r, x + r, y + r, outline="black", fill=plant_color)
         else:
-            canvas.create_oval(x - r, y - r, x + r, y + r, outline="black", fill="white")
+            canvas.create_oval(x - r, y - r, x + r, y + r, outline="black", fill=plant_color)
         
     def draw_circle_place_plant(self, canvas, x, y, r):
         """Draw a circle with given radius and center coordinates."""

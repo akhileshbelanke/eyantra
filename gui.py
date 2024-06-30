@@ -61,8 +61,8 @@ class BuildMainGui():
                 # The car is not moving here. The only updating the data structures.
                 # Car will check all the 4 boxes around the node.
                 for box in range(0, 2):
-                    __row = int(current_car.y_pos)
-                    __col = int(current_car.x_pos)
+                    __row = round(current_car.y_pos)
+                    __col = round(current_car.x_pos)
                     box_index = (__row - 1) * self.cols + (__col - 1) + box
                     
                     plant_data = self.plants_object.plants_positions[box_index]
@@ -72,7 +72,7 @@ class BuildMainGui():
                         # feed or weed the box
                         action = "weed" if current_car.car_color == "green" else "feed"
                         self.plants_object.feed_weed_the_plant(self.canvas, action,
-                                                               self.cell_size * current_car.x_pos - self.cell_size // 2,
+                                                               self.cell_size * (current_car.x_pos + box) - self.cell_size // 2,
                                                                self.cell_size * current_car.y_pos - self.cell_size // 2,
                                                                15, plant_color=current_car.car_color)
                 
