@@ -70,19 +70,19 @@ class BuildMainGui():
                             plant_data = self.plants_object.plants_positions[box_index]
                             current_car.collected_plants_data.append(plant_data)
 
-                        if plant_data["COLOR"] == current_car.car_color:
-                            # feed or weed the box
-                            action = "weed" if current_car.car_color == "green" else "feed"
-                            centre_x = self.cell_size * (current_car.x_pos + box) - self.cell_size // 2
-                            centre_y = self.cell_size * (current_car.y_pos + box_row) - self.cell_size // 2
-                            plant_color = current_car.car_color
-                            radius = 15
-                            self.plants_object.feed_weed_the_plant(self.canvas, 
-                                                                   action,
-                                                                   centre_x,
-                                                                   centre_y,
-                                                                   radius, 
-                                                                   plant_color)
+                            if plant_data["COLOR"] == current_car.car_color:
+                                # feed or weed the box
+                                action = "weed" if current_car.car_color == "green" else "feed"
+                                centre_x = self.cell_size * (current_car.x_pos + box) - self.cell_size // 2
+                                centre_y = self.cell_size * (current_car.y_pos + box_row) - self.cell_size // 2
+                                plant_color = current_car.car_color
+                                radius = 15
+                                self.plants_object.feed_weed_the_plant(self.canvas, 
+                                                                    action,
+                                                                    centre_x,
+                                                                    centre_y,
+                                                                    radius, 
+                                                                    plant_color)
                 
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
 
