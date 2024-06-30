@@ -78,11 +78,11 @@ class BuildMainGui():
                                 plant_color = current_car.car_color
                                 radius = 15
                                 self.plants_object.feed_weed_the_plant(self.canvas, 
-                                                                    action,
-                                                                    centre_x,
-                                                                    centre_y,
-                                                                    radius, 
-                                                                    plant_color)
+                                                                       action,
+                                                                       centre_x,
+                                                                       centre_y,
+                                                                       radius, 
+                                                                       plant_color)
                 
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
 
