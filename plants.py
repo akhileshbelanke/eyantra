@@ -9,7 +9,7 @@ class Plants:
         self.plants_positions = []
         self.temp_plant_struct = {
             "COLOR": None,
-            "VISITED": None,
+            "STATUS": None,
         }
         # Populate the grid with canvases and draw circles on them
         for i in range(rows):
@@ -19,7 +19,7 @@ class Plants:
                 # Draw a circle in the canvas
                 self.temp_plant_struct = {
                     "COLOR": self.draw_circle_place_plant(canvas, center_x, center_y, circle_radius),
-                    "VISITED": None,
+                    "STATUS": None,
                 }
 
                 # Calculate the next center of the circle
