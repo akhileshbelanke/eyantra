@@ -60,21 +60,29 @@ class BuildMainGui():
             elif current_car.car_state == "SENSING":
                 # The car is not moving here. The only updating the data structures.
                 # Car will check all the 4 boxes around the node.
-                for box in range(0, 2):
-                    __row = round(current_car.y_pos)
-                    __col = round(current_car.x_pos)
-                    box_index = (__row - 1) * self.cols + (__col - 1) + box
-                    
-                    plant_data = self.plants_object.plants_positions[box_index]
-                    current_car.collected_plants_data.append(plant_data)
+                for box_row in range(0, 2):
+                    for box in range(0, 2):
+                        __row = round(current_car.y_pos)
+                        __col = round(current_car.x_pos)
+                        box_index = (__row - 1) * self.cols + (__col - 1) + box + (box_row * self.cols)
+                        
+                        if (0 <= box_index < self.cols * self.rows):
+                            plant_data = self.plants_object.plants_positions[box_index]
+                            current_car.collected_plants_data.append(plant_data)
 
-                    if plant_data["COLOR"] == current_car.car_color:
-                        # feed or weed the box
-                        action = "weed" if current_car.car_color == "green" else "feed"
-                        self.plants_object.feed_weed_the_plant(self.canvas, action,
-                                                               self.cell_size * (current_car.x_pos + box) - self.cell_size // 2,
-                                                               self.cell_size * current_car.y_pos - self.cell_size // 2,
-                                                               15, plant_color=current_car.car_color)
+                        if plant_data["COLOR"] == current_car.car_color:
+                            # feed or weed the box
+                            action = "weed" if current_car.car_color == "green" else "feed"
+                            centre_x = self.cell_size * (current_car.x_pos + box) - self.cell_size // 2
+                            centre_y = self.cell_size * (current_car.y_pos + box_row) - self.cell_size // 2
+                            plant_color = current_car.car_color
+                            radius = 15
+                            self.plants_object.feed_weed_the_plant(self.canvas, 
+                                                                   action,
+                                                                   centre_x,
+                                                                   centre_y,
+                                                                   radius, 
+                                                                   plant_color)
                 
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
 

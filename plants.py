@@ -29,11 +29,11 @@ class Plants:
             center_x = self.initial_offset + cell_size // 2
             center_y += cell_size
     
-    def feed_weed_the_plant(self, canvas, action, x, y, r, plant_color):
+    def feed_weed_the_plant(self, canvas, action, x, y, radius, plant_color):
         if plant_color != "green":
-            canvas.create_oval(x - r, y - r, x + r, y + r, outline="black", fill=plant_color)
+            canvas.create_oval(x - radius, y - radius, x + radius, y + radius, outline="black", fill=plant_color)
         else:
-            canvas.create_oval(x - r, y - r, x + r, y + r, outline="black", fill=plant_color)
+            canvas.create_oval(x - radius, y - radius, x + radius, y + radius, outline="black", fill=plant_color)
         
     def draw_circle_place_plant(self, canvas, x, y, r):
         """Draw a circle with given radius and center coordinates."""
