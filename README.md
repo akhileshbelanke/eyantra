@@ -2,7 +2,7 @@ This is eyantra robotics competition 2018 project.
 
 This is simulator to develop and verify the working of path planning algorithm for robots to manuever on the grid.
 
-Project Execution Steps:
+Project Tasks:
 
 Done - Implement opening tikinter, drawing grid, drawing circles.
 Done - Implement drawing car.
