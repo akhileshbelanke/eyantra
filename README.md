@@ -16,8 +16,8 @@ Done - Add plants randomly to the grid.
 Done - Implement sensing logic to sense which plant is placed in the four squares around the node.
 Done - Collect all the sensed data in that paricular car object.
 Done - Feed or Weed the plants on the fixed path as per appropriate color.
-Todo - Adding appropriate delays - sensing, feeding, weeding, and turning.
 Todo - Data collection and logging.
 Todo - Data broadcasting mechanism immediatly as the car finds the plant of other car.
 Todo - Implement path as you get the information of where are the appropriate plants located in the grid - path planning shortest path algorithm.
 Todo - Obstacle avoidance algorithm.
+Todo - Adding appropriate delays - sensing, feeding, weeding, and turning.
