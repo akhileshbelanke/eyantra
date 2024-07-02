@@ -20,4 +20,4 @@ Todo - Adding appropriate delays - sensing, feeding, weeding, and turning.
 Todo - Data collection and logging.
 Todo - Data broadcasting mechanism immediatly as the car finds the plant of other car.
 Todo - Implement path as you get the information of where are the appropriate plants located in the grid - path planning shortest path algorithm.
-Todo - Obstacle avoidance algoTodom.
+Todo - Obstacle avoidance algorithm.
