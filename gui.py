@@ -66,14 +66,18 @@ class BuildMainGui():
                         __col = round(current_car.x_pos)
                         box_index = (__row - 1) * self.cols + (__col - 1) + box + (box_row * self.cols)
                         plant_data = self.plants_object.plants_positions[box_index]
-                        
+
                         if (0 <= box_index < self.cols * self.rows) and (plant_data["STATUS"] == None):
                             
                             current_car.collected_plants_data.append(plant_data)
+                            self.plants_object.plants_positions[box_index]["STATUS"] = "Visited"
 
                             if (plant_data["COLOR"] == current_car.car_color):
                                 # Updated the plant status are visited.
-                                self.plants_object.plants_positions[box_index]["STATUS"] = "Visited"
+                                if current_car.car_color != "green":
+                                    self.plants_object.plants_positions[box_index]["STATUS"] = "Feeded"
+                                else:
+                                    self.plants_object.plants_positions[box_index]["STATUS"] = "Weeded" 
 
                                 # feed or weed the box
                                 action = "weed" if current_car.car_color == "green" else "feed"
