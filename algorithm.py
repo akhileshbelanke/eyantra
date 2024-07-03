@@ -1,16 +1,16 @@
 class Algorithm():
     def __init__(self, color):
         if color == "red":
-            self.path = [(1, 1), (5, 1), (5, 5), (1, 5), (1, 1), (0, 1)]
+            self.path = [(1, 1), (1, 5)]
         elif color == "green":
-            self.path = [(3, 5), (3, 1), (1, 1), (1, 5), (3, 5), (3, 6)]
+            self.path = [(3, 5), (3, 1)]
         elif color == "blue":
-            self.path = [(5, 1), (1, 1), (1, 5), (5, 5), (5, 1), (6, 1)]
+            self.path = [(5, 1), (5, 5)]
         self.index = 1
         self.target_pos = None
 
     def get_target_position(self):
-        if self.index < 6:
+        if self.index < len(self.path):
             self.target_pos = self.path[self.index]
         self.index += 1
         return self.target_pos[0], self.target_pos[1]

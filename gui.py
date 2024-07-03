@@ -65,12 +65,13 @@ class BuildMainGui():
                         __row = round(current_car.y_pos)
                         __col = round(current_car.x_pos)
                         box_index = (__row - 1) * self.cols + (__col - 1) + box + (box_row * self.cols)
+                        plant_data = self.plants_object.plants_positions[box_index]
                         
-                        if (0 <= box_index < self.cols * self.rows):
-                            plant_data = self.plants_object.plants_positions[box_index]
+                        if (0 <= box_index < self.cols * self.rows) and (plant_data["STATUS"] == None):
+                            
                             current_car.collected_plants_data.append(plant_data)
 
-                            if (plant_data["COLOR"] == current_car.car_color) and (plant_data["STATUS"] == None):
+                            if (plant_data["COLOR"] == current_car.car_color):
                                 # Updated the plant status are visited.
                                 self.plants_object.plants_positions[box_index]["STATUS"] = "Visited"
 

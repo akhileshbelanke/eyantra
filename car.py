@@ -53,6 +53,13 @@ class Car(Algorithm):
             return True
         else:
             return False
+    
+    def check_if_last_node_on_path(self):
+        last_element_on_path = len(self.path) - 1
+        if (round(self.x_pos) == self.path[last_element_on_path][0]) and (round(self.y_pos) == self.path[last_element_on_path][1]):
+            return True
+        else:
+            return False
 
     def adjust_the_car_facing(self, car_head, caller, color="yellow"):
         # (left corner point)---> .----------.
@@ -125,7 +132,11 @@ class Car(Algorithm):
             # if CarIsGreen and PlantIsRed                            -> self.car_state = WEEDING.
             # otherwise start moving towards next node
             if self.is_target_reached():
-                self.car_state = "ON_THE_NODE_REORIENT"
+                if self.check_if_last_node_on_path():
+                    self.car_state = "STOP"
+                    print(self.collected_plants_data)
+                else:
+                    self.car_state = "ON_THE_NODE_REORIENT"
             else:
                 self.car_state = "MOVING"
 
