@@ -5,6 +5,7 @@ This is simulator to develop and verify the working of path planning algorithm f
 Project Tasks:
 
   Done - Implement opening tikinter, drawing grid, drawing circles.
+  
   Done - Implement drawing car.
   Done - Implement moving single car in straight line path.
   Done - Defining classes - gui, car, plant and algorithm.
