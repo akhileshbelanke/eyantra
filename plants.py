@@ -10,16 +10,18 @@ class Plants:
         self.temp_plant_struct = {
             "COLOR": None,
             "STATUS": None,
+            "INDEX": None
         }
         # Populate the grid with canvases and draw circles on them
         for i in range(rows):
             for j in range(cols):
                 canvas.grid(row=i, column=j)
-                
+                index = i * cols + j
                 # Draw a circle in the canvas
                 self.temp_plant_struct = {
-                    "COLOR": self.draw_circle_place_plant(canvas, center_x, center_y, circle_radius),
+                    "COLOR": self.draw_circle_place_plant(canvas, center_x, center_y, circle_radius, index),
                     "STATUS": None,
+                    "INDEX": index
                 }
 
                 # Calculate the next center of the circle
@@ -35,13 +37,13 @@ class Plants:
         else:
             canvas.create_oval(x - radius, y - radius, x + radius, y + radius, outline="black", fill=plant_color)
         
-    def draw_circle_place_plant(self, canvas, x, y, r):
+    def draw_circle_place_plant(self, canvas, x, y, r, index):
         """Draw a circle with given radius and center coordinates."""
         canvas.create_oval(x - r, y - r, x + r, y + r, outline="black", fill="white")
         plant_to_be_placed = rndm.choice(self.plants_type)
         # plant_to_be_placed = "red"
         if plant_to_be_placed != "Skip":
-            canvas.create_text(x, y, text=plant_to_be_placed, fill=plant_to_be_placed, font=("Arial", 15))
+            canvas.create_text(x, y, text=f"{plant_to_be_placed}_{index}", fill=plant_to_be_placed, font=("Arial", 15))
         
         return plant_to_be_placed
 

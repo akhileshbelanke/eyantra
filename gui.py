@@ -69,7 +69,6 @@ class BuildMainGui():
 
                         if (0 <= box_index < self.cols * self.rows) and (plant_data["STATUS"] == None):
                             
-                            current_car.collected_plants_data.append(plant_data)
                             self.plants_object.plants_positions[box_index]["STATUS"] = "Visited"
 
                             if (plant_data["COLOR"] == current_car.car_color):
@@ -91,8 +90,22 @@ class BuildMainGui():
                                                                        centre_y,
                                                                        radius, 
                                                                        plant_color)
+                            elif (plant_data["COLOR"] != "Skip"):
+                                # Plant is there in this box but its of different color than current car color
+                                self.broadcast_data_to_other_cars(plant_data, current_car.car_color)
+                                pass
                 
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
+
+    def broadcast_data_to_other_cars(self, plant_data, sensing_car_color):
+        for this_car in self.cars_objects_list:
+            # This condition checks that we are sending data to other cars 
+            if sensing_car_color != this_car.car_color:
+
+                # Send plats data to respective car regarding plants they need to work on after data collection.
+                if plant_data["COLOR"] == this_car.car_color:
+                    this_car.collected_plants_data.append(plant_data)
+
 
 # Create the main application window
 root = tk.Tk()
