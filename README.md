@@ -5,7 +5,6 @@ This is simulator to develop and verify the working of path planning algorithm f
 Project Tasks:
 
   Done - Implement opening tikinter, drawing grid, drawing circles.
-
   Done - Implement drawing car.
   Done - Implement moving single car in straight line path.
   Done - Defining classes - gui, car, plant and algorithm.
@@ -19,6 +18,11 @@ Project Tasks:
   Done - Feed or Weed the plants on the fixed path as per appropriate color.
   Done - Data collection and logging.
   Done - Data broadcasting mechanism immediatly as the car finds the plant of other car.
+         - Modified data logging mechanism to broadcast/collect data of plants which are not feeded/weeded by the sensing car.
   Todo - Implement path as you get the information of where are the appropriate plants located in the grid - path planning shortest path algorithm.
+         - Add System states - dataCollection, pathPlanning, Execution, Stop. 
+         - keep two different paths static and dynamic - static path for data collection and dynamic path for execution.
+         - Update dynamic path according to algorithm.
+         - Move on this path.
   Todo - Obstacle avoidance algorithm.
   Todo - Adding appropriate delays - sensing, feeding, weeding, and turning.
