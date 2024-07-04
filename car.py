@@ -12,7 +12,7 @@ class Car(Algorithm):
         self.car_breadth = car_size
         self.canvas = canvas
         self.corner_vector = [None, None]
-        # Car States: MOVEING, ON_THE_NODE_REORIENT, SENSING, FEEDING, WEEDING, START and STOP.
+        # Car States: MOVING, ON_THE_NODE_REORIENT, SENSING, START and STOP.
         self.car_state = "START"
         self.car_color = color
         self.collected_plants_data = []
@@ -93,6 +93,21 @@ class Car(Algorithm):
                                right_corner_x, right_corner_y
                                )
 
+    def keep_heading_in_same_direction_as_your_are(self):
+        # First move the car in required direction
+        if self.car_head == "right":
+            # Move this car horizontally right
+            self.x_pos += self.stride
+        elif self.car_head == "up":
+            # Move this car vertically upward
+            self.y_pos -= self.stride
+        elif self.car_head == "left":
+            # Move this car horizontally left
+            self.x_pos -= self.stride
+        elif self.car_head == "down":
+            # Move this car vertically downwards
+            self.y_pos += self.stride
+
     def next_move(self):
         if self.car_state == "START":
             self.car_state = "MOVING"
@@ -104,20 +119,7 @@ class Car(Algorithm):
             self.car_state = "MOVING"
             
         elif self.car_state == "MOVING":
-            # First move the car in required direction
-            if self.car_head == "right":
-                # Move this car horizontally right
-                self.x_pos += self.stride
-            elif self.car_head == "up":
-                # Move this car vertically upward
-                self.y_pos -= self.stride
-            elif self.car_head == "left":
-                # Move this car horizontally left
-                self.x_pos -= self.stride
-            elif self.car_head == "down":
-                # Move this car vertically downwards
-                self.y_pos += self.stride
-            
+            self.keep_heading_in_same_direction_as_your_are()           
             # Then check if it has reached an intersection or not.
             if self.reached_intersection():
                 self.car_state = "SENSING"
@@ -125,12 +127,6 @@ class Car(Algorithm):
                 self.car_state = "MOVING"
 
         elif self.car_state == "SENSING":
-            # sense_color in all 4 boxes around that node.
-            # update the data in the structures.
-            # start moving towards next node.
-            # if CarIsRed and PlantIsRed || CarIsBlue and PlantIsBlue -> self.car_state = FEEDING.
-            # if CarIsGreen and PlantIsRed                            -> self.car_state = WEEDING.
-            # otherwise start moving towards next node
             if self.is_target_reached():
                 if self.check_if_last_node_on_path():
                     self.car_state = "STOP"
@@ -139,14 +135,6 @@ class Car(Algorithm):
                     self.car_state = "ON_THE_NODE_REORIENT"
             else:
                 self.car_state = "MOVING"
-
-        elif self.car_state == "FEEDING":
-            # Check the color of car and feed the plant accordingly. Feed all the plants on the node of the same color.
-            self.car_state = "MOVING"
-
-        elif self.car_state == "WEEDING":
-            # Weed all the plants around the node and then start moving.
-            self.car_state = "MOVING"
 
         elif self.car_state == "STOP":
             pass

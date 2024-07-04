@@ -13,7 +13,7 @@ class BuildMainGui():
         self.root = root
         self.canvas = tk.Canvas(root, width=50+cols * cell_size, height=50+rows * cell_size, bg="white")
         self.canvas.pack()
-        # 5 system states: DATA_COLLECTION, DATA_XCHANGE, CALC_PATH, EXEC, DONE
+        # 5 system states: DATA_COLLECTION, PATH_PLANNING, EXECUTION, STOP
         self.system_state = "DATA_COLLECTION"
         self.total_cars = 3
         self.cars_objects_list = []
