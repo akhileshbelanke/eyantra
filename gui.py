@@ -1,5 +1,4 @@
 import tkinter as tk
-import random
 import car
 import grid
 import plants
@@ -19,6 +18,7 @@ class BuildMainGui():
         self.cars_objects_list = []
         self.car_colors = ["red", "green", "blue"]
         self.gui_plants_data = []
+        self.offset = 30
 
         # Create grid gui.
         self.grid_object = grid.Grid(self.canvas, rows, cols, cell_size)
@@ -36,65 +36,91 @@ class BuildMainGui():
         # Create plants gui.
         self.plants_object = plants.Plants(self.canvas, rows, cols, cell_size)
 
+    def feeding_or_weeding_the_plants(self, this_car, box_index):
+        # Updated the plant status are visited.
+        if this_car.car_color != "green":
+            self.plants_object.plants_positions[box_index]["STATUS"] = "Feeded"
+        else:
+            self.plants_object.plants_positions[box_index]["STATUS"] = "Weeded" 
+
+        x = box_index // self.cols
+        y = box_index % self.rows
+
+        # feed or weed the box
+        action = "weed" if this_car.car_color == "green" else "feed"
+        centre_x = self.offset + self.cell_size // 2 + self.cell_size * y 
+        centre_y = self.offset + self.cell_size // 2 + self.cell_size * x 
+        plant_color = this_car.car_color
+        radius = 15
+        self.plants_object.feed_weed_the_plant(self.canvas, 
+                                                action,
+                                                centre_x,
+                                                centre_y,
+                                                radius, 
+                                                plant_color)
+
+    def move_the_car_to_next_coordinate(self, this_car):
+        new_position = [this_car.x_pos, this_car.y_pos]
+
+        # Ensure the new position is within bounds
+        if (0 <= new_position[0] <= self.rows) and (0 <= new_position[1] <= self.cols):
+            x, y = this_car.get_car_coordinates(new_position)
+            self.canvas.coords(this_car.the_car, 
+                x - this_car.corner_vector[0], y - this_car.corner_vector[1],
+                x + this_car.corner_vector[0], y + this_car.corner_vector[1]
+            )
+        else:
+            print("Invalid Car Position", new_position[0], new_position[1],
+                "color =", this_car.car_color)
+
+    def scan_four_boxes_around_node(self, this_car):
+        boxes_data = []
+        for box_row in range(0, 2):
+            for box in range(0, 2):
+                __row = round(this_car.y_pos)
+                __col = round(this_car.x_pos)
+                box_index = (__row - 1) * self.cols + (__col - 1) + box + (box_row * self.cols)
+                boxes_data.append(self.plants_object.plants_positions[box_index])        
+        return boxes_data
 
     def move_cars_automatically(self):
         # Calculte where to move the car next
         for current_car in self.cars_objects_list:
-            current_car.next_move()
+            current_car.next_move(self.system_state)
 
         # Move the car on the canvas the gui
         for current_car in self.cars_objects_list:
             if current_car.car_state == "MOVING":
-                new_position = [current_car.x_pos, current_car.y_pos]
-
-                # Ensure the new position is within bounds
-                if (0 <= new_position[0] <= self.rows) and (0 <= new_position[1] <= self.cols):
-                    x, y = current_car.get_car_coordinates(new_position)
-                    self.canvas.coords(current_car.the_car, 
-                        x - current_car.corner_vector[0], y - current_car.corner_vector[1],
-                        x + current_car.corner_vector[0], y + current_car.corner_vector[1]
-                    )
-                else:
-                    print("Invalid Car Position", new_position[0], new_position[1],
-                        "color =", current_car.car_color)
-            elif current_car.car_state == "SENSING":
-                # The car is not moving here. The only updating the data structures.
-                # Car will check all the 4 boxes around the node.
-                for box_row in range(0, 2):
-                    for box in range(0, 2):
-                        __row = round(current_car.y_pos)
-                        __col = round(current_car.x_pos)
-                        box_index = (__row - 1) * self.cols + (__col - 1) + box + (box_row * self.cols)
-                        plant_data = self.plants_object.plants_positions[box_index]
-
-                        if (0 <= box_index < self.cols * self.rows) and (plant_data["STATUS"] == None):
-                            
-                            self.plants_object.plants_positions[box_index]["STATUS"] = "Visited"
-
-                            if (plant_data["COLOR"] == current_car.car_color):
-                                # Updated the plant status are visited.
-                                if current_car.car_color != "green":
-                                    self.plants_object.plants_positions[box_index]["STATUS"] = "Feeded"
-                                else:
-                                    self.plants_object.plants_positions[box_index]["STATUS"] = "Weeded" 
-
-                                # feed or weed the box
-                                action = "weed" if current_car.car_color == "green" else "feed"
-                                centre_x = self.cell_size * (current_car.x_pos + box) - self.cell_size // 2
-                                centre_y = self.cell_size * (current_car.y_pos + box_row) - self.cell_size // 2
-                                plant_color = current_car.car_color
-                                radius = 15
-                                self.plants_object.feed_weed_the_plant(self.canvas, 
-                                                                       action,
-                                                                       centre_x,
-                                                                       centre_y,
-                                                                       radius, 
-                                                                       plant_color)
-                            elif (plant_data["COLOR"] != "Skip"):
-                                # Plant is there in this box but its of different color than current car color
-                                self.broadcast_data_to_other_cars(plant_data, current_car.car_color)
-                                pass
+                self.move_the_car_to_next_coordinate(current_car)
                 
+            elif current_car.car_state == "SENSING":
+                # Car will check all the 4 boxes around the node.
+                plants_at_node = self.scan_four_boxes_around_node(current_car)
+                                    
+                for plant_data in plants_at_node:
+                    box_index = plant_data["INDEX"]
+                    if (0 <= box_index < self.cols * self.rows) and (plant_data["STATUS"] == None):
+                        self.plants_object.plants_positions[box_index]["STATUS"] = "Visited"
+
+                        if (plant_data["COLOR"] == current_car.car_color):
+                            self.feeding_or_weeding_the_plants(current_car, box_index)
+
+                        elif (plant_data["COLOR"] != "Skip"):
+                            # Plant is there in this box but its of different color than current car color
+                            self.broadcast_data_to_other_cars(plant_data, current_car.car_color)
+                
+        # Updating the system state
+        cars_completed_task = all([current_car.car_state == "STOP" for current_car in self.cars_objects_list])
+        if self.system_state == "DATA_COLLECTION" and cars_completed_task:
+            self.system_state = "PATH_PLANNING"
+
+        elif self.system_state == "PATH_PLANNING" and cars_completed_task:
+            self.system_state = "EXECUTION"
+
+        elif self.system_state == "PATH_PLANNING" and cars_completed_task:
+            self.system_state = "STOP"
+
+        
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
 
     def broadcast_data_to_other_cars(self, plant_data, sensing_car_color):

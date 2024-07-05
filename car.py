@@ -76,10 +76,9 @@ class Car(Algorithm):
         left_corner_x = x - (self.car_length if (car_head == "left" or car_head == "right") else self.car_breadth)
         left_corner_y = y - (self.car_breadth if (car_head == "left" or car_head == "right") else self.car_length)
         right_corner_x = x + (self.car_length if (car_head == "left" or car_head == "right") else self.car_breadth)
-        right_corner_y =  y + (self.car_breadth if (car_head == "left" or car_head == "right") else self.car_length)
+        right_corner_y = y + (self.car_breadth if (car_head == "left" or car_head == "right") else self.car_length)
         self.corner_vector[0] = self.car_length if (car_head == "left" or car_head == "right") else self.car_breadth
         self.corner_vector[1] = self.car_breadth if (car_head == "left" or car_head == "right") else self.car_length
-
 
         if caller == "init":
             self.the_car = self.canvas.create_rectangle(
@@ -108,35 +107,43 @@ class Car(Algorithm):
             # Move this car vertically downwards
             self.y_pos += self.stride
 
-    def next_move(self):
-        if self.car_state == "START":
-            self.car_state = "MOVING"
-
-        elif self.car_state == "ON_THE_NODE_REORIENT":
-            self.target_x_pos, self.target_y_pos = self.get_target_position()
-            self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
-            self.adjust_the_car_facing(self.car_head, caller="next_move")
-            self.car_state = "MOVING"
-            
-        elif self.car_state == "MOVING":
-            self.keep_heading_in_same_direction_as_your_are()           
-            # Then check if it has reached an intersection or not.
-            if self.reached_intersection():
-                self.car_state = "SENSING"
-            else:
+    def next_move(self, system_state):
+        if system_state == "DATA_COLLECTION":
+            if self.car_state == "START":
                 self.car_state = "MOVING"
 
-        elif self.car_state == "SENSING":
-            if self.is_target_reached():
-                if self.check_if_last_node_on_path():
-                    self.car_state = "STOP"
-                    print(self.collected_plants_data)
+            elif self.car_state == "ON_THE_NODE_REORIENT":
+                self.target_x_pos, self.target_y_pos = self.get_target_position()
+                self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
+                self.adjust_the_car_facing(self.car_head, caller="next_move")
+                self.car_state = "MOVING"
+                
+            elif self.car_state == "MOVING":
+                self.keep_heading_in_same_direction_as_your_are()           
+                # Then check if it has reached an intersection or not.
+                if self.reached_intersection():
+                    self.car_state = "SENSING"
                 else:
-                    self.car_state = "ON_THE_NODE_REORIENT"
-            else:
-                self.car_state = "MOVING"
+                    self.car_state = "MOVING"
 
-        elif self.car_state == "STOP":
+            elif self.car_state == "SENSING":
+                if self.is_target_reached():
+                    if self.check_if_last_node_on_path():
+                        self.car_state = "STOP"
+                        # print("\n\n", self.collected_plants_data)
+                    else:
+                        self.car_state = "ON_THE_NODE_REORIENT"
+                else:
+                    self.car_state = "MOVING"
+
+            elif self.car_state == "STOP":
+                pass
+        
+        elif system_state == "PATH_PLANNING":
+            pass
+        elif system_state == "EXECUTION":
+            pass
+        elif system_state == "STOP":
             pass
 
 if __name__ == "__main__":
