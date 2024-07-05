@@ -83,6 +83,15 @@ class BuildMainGui():
                 boxes_data.append(self.plants_object.plants_positions[box_index])        
         return boxes_data
 
+    def broadcast_data_to_other_cars(self, plant_data, sensing_car_color):
+        for this_car in self.cars_objects_list:
+            # This condition checks that we are sending data to other cars 
+            if sensing_car_color != this_car.car_color:
+
+                # Send plats data to respective car regarding plants they need to work on after data collection.
+                if plant_data["COLOR"] == this_car.car_color:
+                    this_car.collected_plants_data.append(plant_data)
+
     def move_cars_automatically(self):
         # Calculte where to move the car next
         for current_car in self.cars_objects_list:
@@ -123,19 +132,10 @@ class BuildMainGui():
         
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms
 
-    def broadcast_data_to_other_cars(self, plant_data, sensing_car_color):
-        for this_car in self.cars_objects_list:
-            # This condition checks that we are sending data to other cars 
-            if sensing_car_color != this_car.car_color:
-
-                # Send plats data to respective car regarding plants they need to work on after data collection.
-                if plant_data["COLOR"] == this_car.car_color:
-                    this_car.collected_plants_data.append(plant_data)
-
 
 # Create the main application window
 root = tk.Tk()
-root.title("Eyantra Robotic Competition - Feeder Weeder")
+root.title("Eyantra Robotics Competition - Feeder Weeder")
 
 # Get the screen width and height
 screen_width = root.winfo_screenwidth()
