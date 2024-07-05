@@ -121,13 +121,18 @@ class BuildMainGui():
         # Updating the system state
         cars_completed_task = all([current_car.car_state == "STOP" for current_car in self.cars_objects_list])
         if self.system_state == "DATA_COLLECTION" and cars_completed_task:
+            print("PATH_PLANNING")
             self.system_state = "PATH_PLANNING"
 
-        elif self.system_state == "PATH_PLANNING" and cars_completed_task:
+        cars_completed_task = all([current_car.car_state == "MOVING" for current_car in self.cars_objects_list])
+        if self.system_state == "PATH_PLANNING" and cars_completed_task:
+            print("EXECUTION")
             self.system_state = "EXECUTION"
 
-        elif self.system_state == "PATH_PLANNING" and cars_completed_task:
-            self.system_state = "STOP"
+        # cars_completed_task = all([current_car.car_state == "STOP" for current_car in self.cars_objects_list])
+        # if self.system_state == "PATH_PLANNING" and cars_completed_task:
+        #     print("STOP")
+        #     self.system_state = "STOP"
 
         
         self.root.after(10, self.move_cars_automatically)  # Scedule move_cars_automatically every 10ms

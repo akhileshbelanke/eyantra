@@ -16,6 +16,8 @@ class Car(Algorithm):
         self.car_state = "START"
         self.car_color = color
         self.collected_plants_data = []
+        self.grid_rows = rows
+        self.grid_cols = cols
 
         if color == "red":
             self.car_indx = 1
@@ -54,9 +56,11 @@ class Car(Algorithm):
         else:
             return False
     
-    def check_if_last_node_on_path(self):
-        last_element_on_path = len(self.path) - 1
-        if (round(self.x_pos) == self.path[last_element_on_path][0]) and (round(self.y_pos) == self.path[last_element_on_path][1]):
+    def check_if_last_node_on_path(self, system_state):
+        current_path = self.data_collection_path if system_state == "DATA_COLLECTION" else self.execution_path
+        last_element_on_path = len(current_path) - 1
+        if (round(self.x_pos) == current_path[last_element_on_path][0]) and \
+            (round(self.y_pos) == current_path[last_element_on_path][1]):
             return True
         else:
             return False
@@ -107,15 +111,26 @@ class Car(Algorithm):
             # Move this car vertically downwards
             self.y_pos += self.stride
 
+    def reorient_the_car(self, system_state, caller):
+        self.target_x_pos, self.target_y_pos = self.get_target_position(system_state)
+        if system_state == "PATH_PLANNING":
+            print(self.target_x_pos, self.target_y_pos)
+        self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
+        self.adjust_the_car_facing(self.car_head, caller)
+
+    def get_next_target_boxes_locations(self):
+        index_list = []
+        for plant in self.collected_plants_data:
+            index_list.append(plant["INDEX"])
+        return index_list
+
     def next_move(self, system_state):
         if system_state == "DATA_COLLECTION":
             if self.car_state == "START":
-                self.car_state = "MOVING"
+                self.car_state = "ON_THE_NODE_REORIENT"
 
             elif self.car_state == "ON_THE_NODE_REORIENT":
-                self.target_x_pos, self.target_y_pos = self.get_target_position()
-                self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
-                self.adjust_the_car_facing(self.car_head, caller="next_move")
+                self.reorient_the_car(system_state, caller="next_move")
                 self.car_state = "MOVING"
                 
             elif self.car_state == "MOVING":
@@ -128,21 +143,38 @@ class Car(Algorithm):
 
             elif self.car_state == "SENSING":
                 if self.is_target_reached():
-                    if self.check_if_last_node_on_path():
+                    if self.check_if_last_node_on_path(system_state):
                         self.car_state = "STOP"
-                        print("\n\n", self.collected_plants_data)
                     else:
                         self.car_state = "ON_THE_NODE_REORIENT"
                 else:
                     self.car_state = "MOVING"
-
-            elif self.car_state == "STOP":
-                pass
         
         elif system_state == "PATH_PLANNING":
-            pass
+            print("path planning")
+            if self.car_state == "STOP":
+                next_target_locations = self.get_next_target_boxes_locations()
+                self.plan_the_path(next_target_locations, self.car_color, self.grid_rows, self.grid_cols)
+                self.car_state = "ON_THE_NODE_REORIENT"
+        
+            elif self.car_state == "ON_THE_NODE_REORIENT":
+                self.reorient_the_car(system_state, caller="next_move")
+                self.car_state = "MOVING"
+
         elif system_state == "EXECUTION":
-            pass
+            if self.car_state == "MOVING":
+                self.keep_heading_in_same_direction_as_your_are()
+                if self.is_target_reached():
+                    if self.check_if_last_node_on_path(system_state):
+                        self.car_state = "STOP"
+                    else:
+                        self.car_state = "ON_THE_NODE_REORIENT"
+                else:
+                    self.car_state = "MOVING"
+            elif self.car_state == "ON_THE_NODE_REORIENT":
+                self.reorient_the_car(system_state, caller="next_move")
+                self.car_state = "MOVING"
+
         elif system_state == "STOP":
             pass
 
