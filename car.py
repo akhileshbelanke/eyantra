@@ -130,7 +130,7 @@ class Car(Algorithm):
                 if self.is_target_reached():
                     if self.check_if_last_node_on_path():
                         self.car_state = "STOP"
-                        # print("\n\n", self.collected_plants_data)
+                        print("\n\n", self.collected_plants_data)
                     else:
                         self.car_state = "ON_THE_NODE_REORIENT"
                 else:

@@ -145,7 +145,7 @@ screen_height = root.winfo_screenheight()
 x = (screen_width // 2) - (50 + 6 * 100 // 2)
 y = (screen_height // 2) - (50 + 6 * 100 // 2)
 
-# Set the geometry of the window
+# Set the geometry of the window. Open window at the centre of screen.
 root.geometry(f'{50 + 6 * 100}x{50 + 6 * 100}+{x}+{y}')
 
 # Initialize the CarGridApp

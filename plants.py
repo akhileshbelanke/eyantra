@@ -43,7 +43,7 @@ class Plants:
         plant_to_be_placed = rndm.choice(self.plants_type)
         # plant_to_be_placed = "red"
         if plant_to_be_placed != "Skip":
-            canvas.create_text(x, y, text=f"{plant_to_be_placed}_{index}", fill=plant_to_be_placed, font=("Arial", 15))
+            canvas.create_text(x, y, text=f"{plant_to_be_placed}__{index}", fill=plant_to_be_placed, font=("Arial", 15))
         
         return plant_to_be_placed
 
