@@ -117,6 +117,12 @@ class BuildMainGui():
                         elif (plant_data["COLOR"] != "Skip"):
                             # Plant is there in this box but its of different color than current car color
                             self.broadcast_data_to_other_cars(plant_data, current_car.car_color)
+
+            elif current_car.car_state == "FEED_WEED":
+                __x = current_car.execution_path[current_car.index][0]
+                __y = current_car.execution_path[current_car.index][1]
+                box_index = __x * self.cols + __y
+                self.feeding_or_weeding_the_plants(current_car, box_index)
                 
         # Updating the system state
         cars_completed_task = all([current_car.car_state == "STOP" for current_car in self.cars_objects_list])

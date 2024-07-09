@@ -31,24 +31,41 @@ class Algorithm():
             return "up"
         elif delta_x == 0 and delta_y > 0:
             return "down"
-        else:
-            print("Incorrect Target Direction")
+        elif delta_x > 0 and delta_y > 0:
+            return "right_down"
+        elif delta_x > 0 and delta_y < 0:
+            return "right_up"
+        elif delta_x < 0 and delta_y > 0:
+            return "left_down"
+        elif delta_x < 0 and delta_y < 0:
+            return "left_up"
 
-    def plan_the_path(self, next_target_locations, color, rows, cols):
+    def plan_the_path(self, next_target_locations, color, rows, cols, current_x, current_y):
+        # Return home node in the end. Add last node as home node.
+        if color == "red":
+            next_target_locations.append(0 * cols + 1)
+        elif color == "green":
+            next_target_locations.append(3 * cols + 6)
+        elif color == "blue":
+            next_target_locations.append(6 * cols + 1)
+        
         # Reset the index because the path will change.
         self.index = 0
+        current_x = round(current_x)
+        current_y = round(current_y)
         for box_index in next_target_locations:
             x = box_index % rows
             y = box_index // cols
-            self.execution_path.append((x, y))
-        
-        # Return home node.
-        if color == "red":
-            self.execution_path.append((0, 1))
-        elif color == "green":
-            self.execution_path.append((3, 6))
-        elif color == "blue":
-            self.execution_path.append((6, 1))
+            if (x - current_x == 0) or (y - current_y == 0):
+                self.execution_path.append((x, y,"Yes"))
+            else:
+                self.execution_path.append((x, current_y, "No"))
+                self.execution_path.append((x, y, "Yes"))
+            
+            current_x = x
+            current_y = y
+
+        print(color, "===>", self.execution_path)
 
     if __name__ == "__main__":
         print("Cannot run this file direclty. Execute gui.py")
