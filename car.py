@@ -113,8 +113,6 @@ class Car(Algorithm):
 
     def reorient_the_car(self, system_state, caller):
         self.target_x_pos, self.target_y_pos = self.get_target_position(system_state)
-        if system_state == "PATH_PLANNING":
-            print(self.target_x_pos, self.target_y_pos)
         self.car_head = self.get_direction(self.x_pos, self.y_pos, self.target_x_pos, self.target_y_pos)
         self.adjust_the_car_facing(self.car_head, caller)
 
@@ -151,7 +149,6 @@ class Car(Algorithm):
                     self.car_state = "MOVING"
         
         elif system_state == "PATH_PLANNING":
-            print("path planning")
             if self.car_state == "STOP":
                 next_target_locations = self.get_next_target_boxes_locations()
                 self.plan_the_path(next_target_locations, self.car_color, self.grid_rows, self.grid_cols, self.x_pos, self.y_pos)
