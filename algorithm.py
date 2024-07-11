@@ -53,14 +53,22 @@ class Algorithm():
         self.index = 0
         current_x = round(current_x)
         current_y = round(current_y)
-        for box_index in next_target_locations:
+        for i, box_index in enumerate(next_target_locations):
             x = box_index % rows
             y = box_index // cols
+                
             if (x - current_x == 0) or (y - current_y == 0):
-                self.execution_path.append((x, y,"Yes"))
+                if i == (len(next_target_locations) - 1):
+                    self.execution_path.append((x, y,"No"))
+                else:
+                    self.execution_path.append((x, y,"Yes"))
             else:
-                self.execution_path.append((x, current_y, "No"))
-                self.execution_path.append((x, y, "Yes"))
+                if i == (len(next_target_locations) - 1):
+                    self.execution_path.append((x, current_y, "No"))
+                    self.execution_path.append((x, y, "No"))
+                else:
+                    self.execution_path.append((x, current_y, "No"))
+                    self.execution_path.append((x, y, "Yes"))
             
             current_x = x
             current_y = y
