@@ -18,11 +18,11 @@ Done - Collect all the sensed data in that paricular car object. <br>
 Done - Feed or Weed the plants on the fixed path as per appropriate color. <br>
 Done - Data collection and logging. <br>
 Done - Data broadcasting mechanism immediatly as the car finds the plant of other car. <br>
-       <t>- Modified data logging mechanism to broadcast/collect data of plants which are not feeded/weeded by the sensing car. <br>
+       - Modified data logging mechanism to broadcast/collect data of plants which are not feeded/weeded by the sensing car. <br>
 Done - Implement path as you get the information of where are the appropriate plants located in the grid - path planning shortest path algorithm. <br>
-       <t> Done - Add System states - dataCollection, pathPlanning, Execution, Stop.  <br>
-      <t> Done - keep two different paths static and dynamic - static path for data collection and dynamic path for execution. <br>
-       <t>Done - Update dynamic path according to algorithm. <br>
-       <t>Done - Move on this path. <br> <br>
+       Done - Add System states - dataCollection, pathPlanning, Execution, Stop.  <br>
+       Done - keep two different paths static and dynamic - static path for data collection and dynamic path for execution. <br>
+       Done - Update dynamic path according to algorithm. <br>
+       Done - Move on this path. <br> <br>
 Todo - Obstacle avoidance algorithm. <br>
 Todo - Adding appropriate delays - sensing, feeding, weeding, and turning. <br>
