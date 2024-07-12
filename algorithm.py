@@ -6,15 +6,15 @@ class Algorithm():
             self.data_collection_path = [(3, 5), (3, 1)]
         elif color == "blue":
             self.data_collection_path = [(5, 1), (5, 5)]
-        self.index = 0
+        self.index = -1
         self.execution_path = []
         self.target_pos = None
 
     def get_target_position(self, system_state):
         current_path = self.data_collection_path if system_state == "DATA_COLLECTION" else self.execution_path
+        self.index += 1
         if self.index < len(current_path):
             self.target_pos = current_path[self.index]
-        self.index += 1
         return self.target_pos[0], self.target_pos[1]
     
     def get_direction(self, current_x, current_y, target_x, target_y):
@@ -50,7 +50,7 @@ class Algorithm():
             next_target_locations.append(6 * cols + 1)
         
         # Reset the index because the path will change.
-        self.index = 0
+        self.index = -1
         current_x = round(current_x)
         current_y = round(current_y)
         for i, box_index in enumerate(next_target_locations):
