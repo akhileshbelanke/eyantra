@@ -6,7 +6,7 @@ class Car(Algorithm):
         self.initial_offset = 30   
         self.x_pos = x_pos # x_pos range from 0 to number of cols
         self.y_pos = y_pos # y_pos range from 0 to number of rows
-        self.stride = 0.005
+        self.stride = 0.05
         self.car_head = None
         self.car_length = car_size + 5
         self.car_breadth = car_size
@@ -60,7 +60,8 @@ class Car(Algorithm):
         current_path = self.data_collection_path if system_state == "DATA_COLLECTION" else self.execution_path
         last_element_on_path = len(current_path) - 1
         if (round(self.x_pos) == current_path[last_element_on_path][0]) and \
-            (round(self.y_pos) == current_path[last_element_on_path][1]):
+            (round(self.y_pos) == current_path[last_element_on_path][1]) and \
+                self.index == last_element_on_path:
             return True
         else:
             return False
