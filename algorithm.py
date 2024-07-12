@@ -74,7 +74,7 @@ class Algorithm():
         if current_x != home_x and current_y != home_y:
             self.execution_path.append((home_x, current_y, "No"))
             self.execution_path.append((home_x, home_y, "No"))
-        elif current_x == home_x ^ current_y == home_y:
+        elif (current_x == home_x) ^ (current_y == home_y):
             self.execution_path.append((home_x, home_y, "No"))
 
         # print(color, "===>", self.execution_path)
