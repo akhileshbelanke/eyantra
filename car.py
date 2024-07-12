@@ -100,16 +100,16 @@ class Car(Algorithm):
         # First move the car in required direction
         if self.car_head == "right":
             # Move this car horizontally right
-            self.x_pos += self.stride
+            self.x_pos = round(self.x_pos + self.stride, 3)
         elif self.car_head == "up":
             # Move this car vertically upward
-            self.y_pos -= self.stride
+            self.y_pos = round(self.y_pos - self.stride, 3)
         elif self.car_head == "left":
             # Move this car horizontally left
-            self.x_pos -= self.stride
+            self.x_pos = round(self.x_pos - self.stride, 3)
         elif self.car_head == "down":
             # Move this car vertically downwards
-            self.y_pos += self.stride
+            self.y_pos = round(self.y_pos + self.stride, 3)
 
     def reorient_the_car(self, system_state, caller):
         self.target_x_pos, self.target_y_pos = self.get_target_position(system_state)
