@@ -1,3 +1,5 @@
+import math
+
 class Algorithm():
     def __init__(self, color):
         if color == "red":
@@ -40,7 +42,35 @@ class Algorithm():
         elif delta_x < 0 and delta_y < 0:
             return "left_up"
 
+    def plan_the_path_2(self, next_target_locations, color, rows, cols, current_x, current_y):
+        # Return home node in the end. Add last node as home node.
+        current_x = round(current_x)
+        current_y = round(current_y)
+        home_x = 0 if color == "red" else 3 if color == "green" else 6
+        home_y = 1 if color == "red" else 6 if color == "green" else 1
+
+        vectors = [(current_x, current_y), (home_x, home_y)]
+        for box_index in next_target_locations:
+            x = box_index % rows
+            y = box_index // cols
+            vectors.insert(1, (x, y))
+
+        distance_matrix = []
+        for current_node in vectors:
+            current_node_list = []
+            for target_node in vectors:
+                xsqr = (target_node[0] - current_node[0]) ** 2
+                ysqr = (target_node[1] - current_node[1]) ** 2
+                distance = round(math.sqrt(xsqr + ysqr))
+                current_node_list.append(distance)
+            distance_matrix.append(current_node_list)
+
+        for i in range(0, len(distance_matrix)):
+            print(distance_matrix[i])
+
     def plan_the_path(self, next_target_locations, color, rows, cols, current_x, current_y):
+
+        self.plan_the_path_2(next_target_locations, color, rows, cols, current_x, current_y)
         # Reset the index because the path will change.
         self.index = -1
         current_x = round(current_x)
