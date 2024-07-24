@@ -50,7 +50,7 @@ class Algorithm():
         home_y = 1 if color == "red" else 6 if color == "green" else 1
 
         vectors = [(current_x, current_y), (home_x, home_y)]
-        for box_index in next_target_locations:
+        for box_index in next_target_locations[::-1]:
             x = box_index % rows
             y = box_index // cols
             vectors.insert(1, (x, y))
@@ -61,7 +61,7 @@ class Algorithm():
             for target_node in vectors:
                 xsqr = (target_node[0] - current_node[0]) ** 2
                 ysqr = (target_node[1] - current_node[1]) ** 2
-                distance = round(math.sqrt(xsqr + ysqr))
+                distance = round(math.sqrt(xsqr + ysqr), 2)
                 current_node_list.append(distance)
             distance_matrix.append(current_node_list)
 
