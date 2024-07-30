@@ -24,13 +24,11 @@ Done - Add System states - dataCollection, pathPlanning, Execution, Stop.  <br>
 Done - keep two different paths static and dynamic - static path for data collection and dynamic path for execution. <br>
 Done - Update dynamic path according to algorithm. <br>
 Done - Move on dynamic path. <br> <br>
-```
-Todo - Path planning shortest path algorithm over grid. Implement travelling salesman algorithm over grid.
-        Done - a. Calculate distance matrix. 
-        Done - b. Implement Bellman Held Karp algorithm. Output will be nodes to visit in order.
-        Todo - c. Select 1/4 corner, for each node in the list. 
-        Todo - d. Execute on this path. 
-        Todo - e. Maintain checklist of the nodes, will be helpful while obstacle avoidance.
-Todo - Obstacle avoidance algorithm. 
-Todo - Adding appropriate delays - sensing, feeding, weeding, and turning.
-```
+> Todo - Path planning shortest path algorithm over grid. Implement travelling salesman algorithm over grid.
+>        Done - a. Calculate distance matrix. 
+>        Done - b. Implement Bellman Held Karp algorithm. Output will be nodes to visit in order.
+>        Todo - c. Select 1 of 4 corner, for each node in the list. 
+>        Todo - d. Execute on this path. 
+>        Todo - e. Maintain checklist of the nodes, will be helpful while obstacle avoidance.
+> Todo - Obstacle avoidance algorithm. 
+> Todo - Adding appropriate delays - sensing, feeding, weeding, and turning.
