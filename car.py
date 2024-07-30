@@ -152,14 +152,12 @@ class Car(Algorithm):
         elif system_state == "PATH_PLANNING":
             if self.car_state == "STOP":
                 next_target_locations = self.get_next_target_boxes_locations()
-                # print(self.car_color, "->", next_target_locations)
-                self.plan_the_path_2(next_target_locations, self.car_color, self.grid_rows, self.grid_cols, self.x_pos, self.y_pos)
+                self.plan_the_path(next_target_locations, self.car_color, self.grid_rows, self.grid_cols, self.x_pos, self.y_pos)
                 self.car_state = "ON_THE_NODE_REORIENT"
         
             elif self.car_state == "ON_THE_NODE_REORIENT":
                 self.reorient_the_car(system_state, caller="next_move")
                 self.car_state = "MOVING"
-                # print(self.car_color, self.collected_plants_data)
 
         elif system_state == "EXECUTION":
             if self.car_state == "MOVING":

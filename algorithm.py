@@ -101,9 +101,9 @@ class Algorithm():
 
         return min_cost, final_path
 
-
-    def plan_the_path_2(self, next_target_locations, color, rows, cols, current_x, current_y):
+    def plan_the_path(self, next_target_locations, color, rows, cols, current_x, current_y):
         # Return home node in the end. Add last node as home node.
+        self.index = -1
         current_x = round(current_x)
         current_y = round(current_y)
         home_x = 0 if color == "red" else 3 if color == "green" else 6
@@ -126,7 +126,6 @@ class Algorithm():
             distance_matrix.append(current_node_list)
 
         cost, output_path = self.bellman_held_karp_algorithm(distance_matrix, 0, len(vectors)-1)
-        print(color, cost, output_path)
 
         current_x = vectors[0][0]
         current_y = vectors[0][1]
@@ -151,49 +150,6 @@ class Algorithm():
 
         print("exepath2", color, self.execution_path)
 
-    # def plan_the_path(self, next_target_locations, color, rows, cols, current_x, current_y):
-
-    #     self.plan_the_path_2(next_target_locations, color, rows, cols, current_x, current_y)
-    #     # Reset the index because the path will change.
-    #     self.index = -1
-    #     current_x = round(current_x)
-    #     current_y = round(current_y)
-    #     for i, box_index in enumerate(next_target_locations):
-    #         x = box_index % rows
-    #         y = box_index // cols
-                
-    #         if (x - current_x == 0) or (y - current_y == 0):
-    #             self.execution_path.append((x, y,"Yes"))
-    #         else:
-    #             self.execution_path.append((x, current_y, "No"))
-    #             self.execution_path.append((x, y, "Yes"))
-            
-    #         current_x = x
-    #         current_y = y
-
-    #     # Return home node in the end. Add last node as home node.
-    #     home_x = 0
-    #     home_y = 0
-    #     if color == "red":
-    #         home_x = 0
-    #         home_y = 1
-    #     elif color == "green":
-    #         home_x = 3
-    #         home_y = 6
-    #     elif color == "blue":
-    #         home_x = 6
-    #         home_y = 1
-
-    #     if current_x != home_x and current_y != home_y:
-    #         self.execution_path.append((home_x, current_y, "No"))
-    #         self.execution_path.append((home_x, home_y, "No"))
-    #     elif (current_x == home_x) ^ (current_y == home_y):
-    #         self.execution_path.append((home_x, home_y, "No"))
-
-    #     # print(color, "===>", self.execution_path)
-    #     print(color,"->PASS") if (self.execution_path[-1][0] == home_x and self.execution_path[-1][1] == home_y) else print(color,"->FAIL")
-    #     print("exepath1", color, self.execution_path)
-
-    if __name__ == "__main__":
-        print("Cannot run this file direclty. Execute gui.py")
+if __name__ == "__main__":
+    print("Cannot run this file direclty. Execute gui.py")
 
