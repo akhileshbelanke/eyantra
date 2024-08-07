@@ -43,7 +43,16 @@ class Algorithm():
             return "left_down"
         elif delta_x < 0 and delta_y < 0:
             return "left_up"
-
+    
+    def get_closest_next_node_to_current_node(self, x, y, current_x, current_y):
+        targets = [(x, y), (x+1, y), (x, y+1), (x+1, y+1)]
+        minimum_distance = []
+        for target_node in targets:
+            dist = abs(current_x - target_node[0]) + abs(current_y - target_node[1])
+            minimum_distance.append(dist)
+        index = minimum_distance.index(min(minimum_distance)) 
+        return targets[index][0], targets[index][1]
+    
     def bellman_held_karp_algorithm(self, dist, start, end):
         n = len(dist)
         
@@ -132,23 +141,30 @@ class Algorithm():
         for i in range(1, len(output_path)):
             x = vectors[output_path[i]][0]
             y = vectors[output_path[i]][1]
-
-            if (x - current_x == 0) or (y - current_y == 0):
-                if i == (len(output_path) - 1):
-                    self.execution_path.append((x, y,"No"))
-                else:
-                    self.execution_path.append((x, y,"Yes"))
+            if i < (len(output_path) - 1):
+                # print("###")
+                newx, newy = self.get_closest_next_node_to_current_node(vectors[output_path[i]][0], vectors[output_path[i]][1], current_x, current_y)
+                # print("old->", x, y, "new->", newx, newy)
             else:
-                self.execution_path.append((x, current_y, "No"))
+                newx = vectors[output_path[i]][0]
+                newy = vectors[output_path[i]][1]
+
+            if (newx - current_x == 0) or (newy - current_y == 0):
                 if i == (len(output_path) - 1):
-                    self.execution_path.append((x, y,"No"))
+                    self.execution_path.append((newx, newy, "No"))
                 else:
-                    self.execution_path.append((x, y, "Yes"))
+                    self.execution_path.append((newx, newy, "Yes", y * cols + x))
+            else:
+                self.execution_path.append((newx, current_y, "No"))
+                if i == (len(output_path) - 1):
+                    self.execution_path.append((newx, newy, "No"))
+                else:
+                    self.execution_path.append((newx, newy, "Yes", y * cols + x))
 
-            current_x = x
-            current_y = y
+            current_x = newx
+            current_y = newy
 
-        print("exepath2", color, self.execution_path)
+        print("exepath2", color, output_path, self.execution_path)
 
 if __name__ == "__main__":
     print("Cannot run this file direclty. Execute gui.py")

@@ -119,10 +119,7 @@ class BuildMainGui():
                             self.broadcast_data_to_other_cars(plant_data, current_car.car_color)
 
             elif current_car.car_state == "FEED_WEED":
-                __x = current_car.execution_path[current_car.index][0]
-                __y = current_car.execution_path[current_car.index][1]
-                # print(current_car.car_color, __x, __y)
-                box_index = __y * self.cols + __x
+                box_index = current_car.execution_path[current_car.index][3]
                 self.feeding_or_weeding_the_plants(current_car, box_index)
                 
         # Updating the system state

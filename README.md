@@ -28,8 +28,8 @@ Done - Move on dynamic path. <br> <br>
 Todo - Path planning shortest path algorithm over grid. Implement travelling salesman algorithm over grid.
        Done - a. Calculate distance matrix. 
        Done - b. Implement Bellman Held Karp algorithm. Output will be nodes to visit in order.
-       Todo - c. Select 1 of 4 corner, for each node in the list. 
-       Todo - d. Execute on this path. 
+       Done - c. Select 1 of 4 corner, for each node in the list. 
+       Done - d. Execute on this path. 
        Todo - e. Maintain checklist of the nodes, will be helpful while obstacle avoidance.
 Todo - Obstacle avoidance algorithm. 
 Todo - Adding appropriate delays - sensing, feeding, weeding, and turning.
