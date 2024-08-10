@@ -25,12 +25,10 @@ Done - keep two different paths static and dynamic - static path for data collec
 Done - Update dynamic path according to algorithm. <br>
 Done - Move on dynamic path. <br> 
 Done - Path planning shortest path algorithm over grid. Implement travelling salesman algorithm over grid. <br>
-```
        Done - a. Calculate distance matrix. <br>
        Done - b. Implement Bellman Held Karp algorithm. Output will be nodes to visit in order. <br>
        Done - c. Select 1 of 4 corner, for each node in the list. <br>
        Done - d. Execute on this path. <br>
-```
 ```
 Todo - Obstacle avoidance algorithm. <br>
 Todo - Adding appropriate delays - sensing, feeding, weeding, and turning.
