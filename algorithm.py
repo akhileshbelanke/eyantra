@@ -11,7 +11,6 @@ class Algorithm():
             self.data_collection_path = [(5, 1), (5, 5)]
         self.index = -1
         self.execution_path = []
-        self.execution_path2 = []
         self.target_pos = None
 
     def get_target_position(self, system_state):
@@ -164,7 +163,7 @@ class Algorithm():
             current_x = newx
             current_y = newy
 
-        print("exepath2", color, output_path, self.execution_path)
+        print("exepath", color, output_path, self.execution_path)
 
 if __name__ == "__main__":
     print("Cannot run this file direclty. Execute gui.py")
