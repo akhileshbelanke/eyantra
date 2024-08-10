@@ -54,6 +54,10 @@ class Algorithm():
     
     def bellman_held_karp_algorithm(self, dist, start, end):
         n = len(dist)
+        # If there is no color found for that car, just return to home from
+        # current location. Thus returing start and end point.
+        if n == 2:
+            return dist[0][1], [start, end]
         
         # Initialize the memoization table and path tracking
         dp = {}
